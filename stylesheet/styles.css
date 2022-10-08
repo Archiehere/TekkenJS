@@ -4,19 +4,19 @@ body {
 }
 #canvas1 {
     position: absolute;
-    top: 50%;
-    left: 15%;
-    width: 600px;
-    height: 600px;
+    top: 380px;
+    left: 150px;
+    /* width: 600px;
+    height: 600px; */
 }
 
-.controls{
+/* .controls{
     position: absolute;
     z-index: 10;
     top: 100px;
     left: 50%;
     transform: translateX(-50%);
-}
+} */
 
 .controls, select, option {
     font-size: 25px;

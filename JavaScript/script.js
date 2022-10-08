@@ -6,39 +6,63 @@ const BGcanvas = document.getElementById('myCanvas');
 const BGctx = BGcanvas.getContext('2d');
 BGcanvas.width = window.innerWidth;
 BGcanvas.height = window.innerHeight;
-
+let speed=6,leftlocation=150;
+let toplocation=380;
 // Event Listeners
 window.addEventListener('keydown', function (event) {
     switch (event.key.toLocaleLowerCase()) {
         case 'w':
+            // Event
+            playerState="jump"
+            while(toplocation>300)
+            {toplocation-=speed;
+            canvas.style.top= toplocation + "px";}
             playerTwo.health--;
+
             break;
         case 'a':
+            // Event
+            playerState="backward";
+            if(leftlocation>10)
+            leftlocation-=speed;
+            canvas.style.left= leftlocation + "px" ;
             playerOne.health--;
+            
             break;
         case 's':
             // Event
+            playerState="crouch";
             break;
         case 'd':
             // Event
+            playerState="forward";
+            if(leftlocation<1200)
+            leftlocation+=speed;
+            canvas.style.left= leftlocation + "px" ;
             break;
         case 'z':
             // Event
+            playerState="kick";
             break;
         case 'x':
             // Event
+            playerState="punch"
             break;
         case 'arrowleft':
             // Event
+            playerState="forward";
             break;
         case 'arrowright':
             // Event
+            playerState="backward";
             break;
         case 'arrowup':
             // Event
+            playerState="jump";
             break;
         case 'arrowdown':
             // Event
+            playerState="crouch";
             break;
         case 'n':
             // Event
@@ -46,6 +70,14 @@ window.addEventListener('keydown', function (event) {
         case 'm':
             // Event
             break;
+    }
+})
+window.addEventListener('keyup', function (){
+playerState="idle";
+    while(toplocation!=380)
+    {
+        toplocation+=speed;
+        canvas.style.top=toplocation + "px";
     }
 })
 
@@ -89,20 +121,20 @@ function healthBarTwo() {
 }
 
 let playerState = 'intro';
-const dropdown = document.getElementById('animations');
-dropdown.addEventListener('change', function(e){
-playerState = e.target.value;
-})
+// const dropdown = document.getElementById('animations');
+// dropdown.addEventListener('change', function(e){
+// playerState = e.target.value;
+// })
 const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
-const CANVAS_WIDTH = canvas.width = 600;
-const CANVAS_HEIGHT = canvas.height = 600;
+const CANVAS_WIDTH = canvas.width = 250;
+const CANVAS_HEIGHT = canvas.height = 350;
 const playerImage = new Image();
 playerImage.src = 'images/Ryu.gif';
 let spriteWidth = 62;
 let spriteHeight =  115;
 let gameFrame = 0;
-const staggerFrames = 8;
+const staggerFrames = 20;
 const spriteAnimations = [];
 const animationStates =[
     {
@@ -201,19 +233,21 @@ animationStates.forEach((state, index) => {
         }
         spriteAnimations[state.name] = frames;
         });
-
+        // console.log(spriteAnimations);
+        // console.log(animationStates);
         function animate(){
-            background();
-            healthBarOne();
-            healthBarTwo();
+            
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        background();
+        healthBarOne();
+        healthBarTwo();
         let position = Math.floor(gameFrame/staggerFrames) % spriteAnimations[playerState].loc.length;
         // let framex = spacebeginning +(spriteWidth+spacebetween) * position;
         let framey = spriteAnimations[playerState].loc[position].y ;
         let framex = spriteAnimations[playerState].loc[position].x ;
         spriteWidth = spriteAnimations[playerState].loc[position].framewidth;
         spriteHeight = spriteAnimations[playerState].loc[position].frameheight;
-        ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50,200,300);
+        ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50,CANVAS_WIDTH-50,CANVAS_HEIGHT-50);
         gameFrame ++;
         requestAnimationFrame(animate);
         };
