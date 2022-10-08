@@ -68,8 +68,8 @@ playerState = e.target.value;
 })
 const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
-const CANVAS_WIDTH = canvas.width = 600;
-const CANVAS_HEIGHT = canvas.height = 600;
+const CANVAS_WIDTH = canvas.width = 250;
+const CANVAS_HEIGHT = canvas.height = 350;
 const playerImage = new Image();
 playerImage.src = 'images/Ryu.gif';
 let spriteWidth = 62;
@@ -174,18 +174,19 @@ animationStates.forEach((state, index) => {
         }
         spriteAnimations[state.name] = frames;
         });
-        console.log(spriteAnimations);
-        console.log(animationStates);
+        // console.log(spriteAnimations);
+        // console.log(animationStates);
         function animate(){
-            background();
+            
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        background();
         let position = Math.floor(gameFrame/staggerFrames) % spriteAnimations[playerState].loc.length;
         // let framex = spacebeginning +(spriteWidth+spacebetween) * position;
         let framey = spriteAnimations[playerState].loc[position].y ;
         let framex = spriteAnimations[playerState].loc[position].x ;
         spriteWidth = spriteAnimations[playerState].loc[position].framewidth;
         spriteHeight = spriteAnimations[playerState].loc[position].frameheight;
-        ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50,200,300);
+        ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50,CANVAS_WIDTH-50,CANVAS_HEIGHT-50);
         gameFrame ++;
         requestAnimationFrame(animate);
         };
