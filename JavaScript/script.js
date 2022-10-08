@@ -7,6 +7,48 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+// Event Listeners
+window.addEventListener('keydown', function (event) {
+    switch (event.key.toLocaleLowerCase()) {
+        case 'w':
+            // Event
+            break;
+        case 'a':
+            // Event
+            break;
+        case 's':
+            // Event
+            break;
+        case 'd':
+            // Event
+            break;
+        case 'z':
+            // Event
+            break;
+        case 'x':
+            // Event
+            break;
+        case 'arrowleft':
+            // Event
+            break;
+        case 'arrowright':
+            // Event
+            break;
+        case 'arrowup':
+            // Event
+            break;
+        case 'arrowdown':
+            // Event
+            break;
+        case 'n':
+            // Event
+            break;
+        case 'm':
+            // Event
+            break;
+    }
+})
+
 let backgroundImage = new Image();
 backgroundImage.src = "images/background/backgroundSprite.png"
 
@@ -15,7 +57,7 @@ backgroundImageOver.src = "images/background/backgroundSprite-removebg.png"
 
 function background() {
     ctx.drawImage(backgroundImage, 10, 8, 419, 224, 0, 0, canvas.width, canvas.height);
-    ctx.drawImage(backgroundImage, 205, 255, 672, 33, 0, 570, canvas.width, canvas.height-570);
+    ctx.drawImage(backgroundImage, 205, 255, 672, 33, 0, 570, canvas.width, canvas.height - 570);
     ctx.drawImage(backgroundImageOver, 18, 340, 672, 200, 0, 0, canvas.width, 580);
 }
 
