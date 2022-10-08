@@ -11,10 +11,10 @@ BGcanvas.height = window.innerHeight;
 window.addEventListener('keydown', function (event) {
     switch (event.key.toLocaleLowerCase()) {
         case 'w':
-            // Event
+            playerTwo.health--;
             break;
         case 'a':
-            // Event
+            playerOne.health--;
             break;
         case 's':
             // Event
@@ -61,6 +61,33 @@ function background() {
     BGctx.drawImage(backgroundImageOver, 18, 340, 672, 200, 0, 0, BGcanvas.width, 580);
 }
 
+ // Temporary variable for player one health
+let playerOne = {
+    health: 100
+}
+
+let playerTwo = {
+    health: 100
+}
+
+function healthBarOne() {
+    BGctx.strokeStyle = "black";
+    BGctx.lineWidth = 5;
+    BGctx.fillStyle = `hsl(${Math.max(0, playerOne.health)}, 100%, 50%)`;
+    BGctx.rect(BGcanvas.width/10, BGcanvas.height/10, BGcanvas.width/3, 20);
+    BGctx.stroke();
+    BGctx.fill();
+}
+
+function healthBarTwo() {
+    BGctx.strokeStyle = "black";
+    BGctx.lineWidth = 5;
+    BGctx.fillStyle = `hsl(${Math.max(0, playerTwo.health)}, 100%, 50%)`;
+    BGctx.rect(BGcanvas.width/1.8 , BGcanvas.height/10, BGcanvas.width/3, 20);
+    BGctx.stroke();
+    BGctx.fill();
+}
+
 let playerState = 'intro';
 const dropdown = document.getElementById('animations');
 dropdown.addEventListener('change', function(e){
@@ -75,7 +102,7 @@ playerImage.src = 'images/Ryu.gif';
 let spriteWidth = 62;
 let spriteHeight =  115;
 let gameFrame = 0;
-const staggerFrames = 24;
+const staggerFrames = 8;
 const spriteAnimations = [];
 const animationStates =[
     {
@@ -174,10 +201,11 @@ animationStates.forEach((state, index) => {
         }
         spriteAnimations[state.name] = frames;
         });
-        console.log(spriteAnimations);
-        console.log(animationStates);
+
         function animate(){
             background();
+            healthBarOne();
+            healthBarTwo();
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         let position = Math.floor(gameFrame/staggerFrames) % spriteAnimations[playerState].loc.length;
         // let framex = spacebeginning +(spriteWidth+spacebetween) * position;
