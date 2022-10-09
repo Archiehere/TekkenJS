@@ -6,10 +6,20 @@ const BGcanvas = document.getElementById('myCanvas');
 const BGctx = BGcanvas.getContext('2d');
 BGcanvas.width = window.innerWidth;
 BGcanvas.height = window.innerHeight;
-let speed = 10, leftlocation = 150;
-let toplocation = 380;
+// let speed = 10, leftlocation = 150;
+// let toplocation = 380;
 let prevposition = 0;
 let position;
+
+let x = 0;
+let y = 0;
+let velocityX = 100; //should be same as initial position of player for smooth start
+let velocityY = 380;
+let gravity = 380;
+let canJump = true;
+let maxSpeed = 2;
+let keysPressed = [];
+
 
 // Temporary variable for player one health
 let playerOne = {
@@ -34,7 +44,7 @@ function startTimer() {
             clearInterval(prevtimeInterval);
             time = 60;
             timer.innerText = "Start";
-            setInterval(function() {
+            setInterval(function () {
                 time = Math.max(time, 0);
                 timer.innerText = time;
                 time--;
@@ -57,32 +67,36 @@ window.addEventListener('keydown', function (event) {
         case 'w':
             // Event
             playerState = "jump"
-                toplocation=300;
-                canvas.style.top = toplocation + "px";
-            
+            keysPressed[event.key] = true;
+            // toplocation = 300;
+            // canvas.style.top = toplocation + "px";
+
 
             break;
         case 'a':
             // Event
             playerState = "backward";
-            if (leftlocation > 10)
-                leftlocation -= speed;
-            canvas.style.left = leftlocation + "px";
+            keysPressed[event.key] = true;
+            // if (leftlocation > 10)
+            //     leftlocation -= speed;
+            // canvas.style.left = leftlocation + "px";
 
 
             break;
         case 's':
             // Event
             playerState = "crouch";
-            toplocation=420;
-            canvas.style.top = toplocation + "px";
+            keysPressed[event.key] = true;
+            // toplocation = 420;
+            // canvas.style.top = toplocation + "px";
             break;
         case 'd':
             // Event
             playerState = "forward";
-            if (leftlocation < 1200)
-                leftlocation += speed;
-            canvas.style.left = leftlocation + "px";
+            keysPressed[event.key] = true;
+            // if (leftlocation < 1200)
+            //     leftlocation += speed;
+            // canvas.style.left = leftlocation + "px";
             break;
         case 'z':
             // Event
@@ -121,12 +135,14 @@ window.addEventListener('keydown', function (event) {
             break;
     }
 })
-window.addEventListener('keyup', function () {
+
+window.addEventListener('keyup', function (event) {
     playerState = "idle";
-    if (toplocation != 380) {
-        toplocation=380;
-        canvas.style.top = toplocation + "px";
-    }
+    keysPressed[event.key] = false;
+    // if (toplocation != 380) {
+    //     toplocation = 380;
+    //     canvas.style.top = toplocation + "px";
+    // }
 })
 
 let backgroundImage = new Image();
@@ -140,6 +156,7 @@ function background() {
     BGctx.drawImage(backgroundImage, 205, 255, 672, 33, 0, 570, BGcanvas.width, BGcanvas.height - 570);
     BGctx.drawImage(backgroundImageOver, 18, 340, 672, 200, 0, 0, BGcanvas.width, 580);
 }
+
 
 
 
@@ -244,21 +261,64 @@ const animationStates = [
     }
 ];
 
+function drawCharacter() {
+    animationStates.forEach((state, index) => {
+        let frames = {
+            loc: [],
+        }
+        for (let j = 0; j < state.frames; j++) {
+            let positionx = state.framexposition[j];
+            let positiony = state.frameyposition;
+            frames.loc.push({ x: positionx, y: positiony, framewidth: state.frameswidth[j], frameheight: state.framesheight[j] });
+        }
+        spriteAnimations[state.name] = frames;
+    });
+    update();
 
+}
+drawCharacter();
 
-animationStates.forEach((state, index) => {
-    let frames = {
-        loc: [],
-    }
-    for (let j = 0; j < state.frames; j++) {
-        let positionx = state.framexposition[j];
-        let positiony = state.frameyposition;
-        frames.loc.push({ x: positionx, y: positiony, framewidth: state.frameswidth[j], frameheight: state.framesheight[j] });
-    }
-    spriteAnimations[state.name] = frames;
-});
 // console.log(spriteAnimations);
 // console.log(animationStates);
+
+
+// const gravity = 0.5;
+function update() {
+
+
+    if (keysPressed['d']) {
+        velocityX += 50;
+        canvas.style.left = velocityX + 'px';
+    }
+    if (keysPressed['a']) {
+        velocityX -= 50;
+
+        canvas.style.left = velocityX + 'px';
+    }
+    if (keysPressed['w']) {
+
+        if (canJump) {
+            canJump = false;
+            let jumpUp = setInterval(function() {
+                if(velocityY < 340) {
+                    clearInterval(jumpUp)
+                    let jumpDown = setInterval(function() {
+                        if(velocityY >= 380) {
+                            clearInterval(jumpDown);
+                            canJump = true;
+                        }
+                        velocityY += 30;
+                        canvas.style.top = velocityY + 'px';
+                    })
+                }
+                velocityY -= 25;
+                canvas.style.top = velocityY + 'px';
+            }, 200)}
+
+    }
+
+}
+
 function animate() {
 
 
@@ -273,6 +333,7 @@ function animate() {
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         background();
         ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
+        update();
     }
     gameFrame++;
     requestAnimationFrame(animate);
