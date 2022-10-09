@@ -169,6 +169,7 @@ function background() {
 
 
 let playerState = 'intro';
+let playerState2 = 'intro';
 // const dropdown = document.getElementById('animations');
 // dropdown.addEventListener('change', function(e){
 // playerState = e.target.value;
@@ -183,6 +184,8 @@ const playerImage = new Image();
 playerImage.src = 'images/Ryu.gif';
 let spriteWidth = 62;
 let spriteHeight = 115;
+let spriteWidth2 = 62;
+let spriteHeight2 = 115;
 let gameFrame = 0;
 const staggerFrames = 15;
 const spriteAnimations = [];
@@ -344,11 +347,15 @@ function animate() {
         let framex = spriteAnimations[playerState].loc[position].x;
         spriteWidth = spriteAnimations[playerState].loc[position].framewidth;
         spriteHeight = spriteAnimations[playerState].loc[position].frameheight;
+        let framey2 = spriteAnimations[playerState2].loc[position].y;
+        let framex2 = spriteAnimations[playerState2].loc[position].x;
+        spriteWidth2 = spriteAnimations[playerState2].loc[position].framewidth;
+        spriteHeight2 = spriteAnimations[playerState2].loc[position].frameheight;
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         ctx2.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         background();
         ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
-        ctx2.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
+        ctx2.drawImage(playerImage, framex2, framey2, spriteWidth2, spriteHeight2, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
         canvas2.style.transform="scale(-1,1)";
         update();
     }
