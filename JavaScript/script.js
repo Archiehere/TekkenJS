@@ -4,6 +4,7 @@
 
 const BGcanvas = document.getElementById('myCanvas');
 const BGctx = BGcanvas.getContext('2d');
+// BGctx.scale(-1,1);
 BGcanvas.width = window.innerWidth;
 BGcanvas.height = window.innerHeight;
 // let speed = 10, leftlocation = 150;
@@ -155,6 +156,7 @@ function background() {
     BGctx.drawImage(backgroundImage, 10, 8, 419, 224, 0, 0, BGcanvas.width, BGcanvas.height);
     BGctx.drawImage(backgroundImage, 205, 255, 672, 33, 0, 570, BGcanvas.width, BGcanvas.height - 570);
     BGctx.drawImage(backgroundImageOver, 18, 340, 672, 200, 0, 0, BGcanvas.width, 580);
+    
 }
 
 
