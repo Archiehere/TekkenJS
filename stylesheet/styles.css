@@ -10,6 +10,7 @@ body {
     height: 600px; */
 }
 
+/* Health Bars */
 #health-container-one {
     position: absolute;
     z-index: 10;
@@ -49,6 +50,21 @@ body {
     height: 100%;
     background-color: red;
     margin-left: 0%;
+}
+
+/* Timer */
+#timer-container {
+    position: absolute;
+    top: 5%;
+    text-align: center;
+    width: 100%;
+}
+
+#timer {
+    font-size: large;
+    color: #f7ddbe;
+    font-family: 'Bidzina', sans-serif;
+    font-size: 90px;
 }
 
 
