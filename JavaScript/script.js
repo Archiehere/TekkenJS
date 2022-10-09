@@ -66,41 +66,18 @@ startTimer();
 window.addEventListener('keydown', function (event) {
     switch (event.key.toLocaleLowerCase()) {
         case 'w':
-            // Event
-            
             keysPressed[event.key] = true;
-            // toplocation = 300;
-            // canvas.style.top = toplocation + "px";
-
-
             break;
         case 'a':
-            // Event
-            
             keysPressed[event.key] = true;
-            // if (leftlocation > 10)
-            //     leftlocation -= speed;
-            // canvas.style.left = leftlocation + "px";
-
-
             break;
         case 's':
-            // Event
-            
             keysPressed[event.key] = true;
-            // toplocation = 420;
-            // canvas.style.top = toplocation + "px";
             break;
         case 'd':
-            // Event
-            
             keysPressed[event.key] = true;
-            // if (leftlocation < 1200)
-            //     leftlocation += speed;
-            // canvas.style.left = leftlocation + "px";
             break;
         case 'z':
-            // Event
             playerState = "kick";
             break;
         case 'x':
@@ -109,19 +86,19 @@ window.addEventListener('keydown', function (event) {
             break;
         case 'arrowleft':
             // Event
-            playerState = "forward";
+            playerState2 = "forward";
             break;
         case 'arrowright':
             // Event
-            playerState = "backward";
+            playerState2 = "backward";
             break;
         case 'arrowup':
             // Event
-            playerState = "jump";
+            playerState2 = "jump";
             break;
         case 'arrowdown':
             // Event
-            playerState = "crouch";
+            playerState2 = "crouch";
             break;
         case 'n':
             // Event
@@ -322,7 +299,7 @@ function update() {
                 if (velocityY < 320) {
                     clearInterval(jumpUp)
                     let jumpDown = setInterval(function () {
-                        if (velocityY >= 380) {
+                        if (velocityY >= 370) {
                             clearInterval(jumpDown);
                             canJump = true;
                         }
