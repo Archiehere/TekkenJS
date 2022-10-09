@@ -111,8 +111,11 @@ window.addEventListener('keydown', function (event) {
             break;
         case 'n':
             // Event
+            playerState="gethit";
             playerOne.health -= 10;
             playerOne.healthBar.style.width = playerOne.health + '%';
+            if(playerOne.health<=0)
+            playerState="ko";
             break;
         case 'm':
             // Event
@@ -137,6 +140,8 @@ let backgroundImageOver = new Image();
 backgroundImageOver.src = "images/background/backgroundSprite-removebg.png"
 
 function background() {
+    // BGctx.scale(-1,1);
+    // BGctx.rotate(45 * Math.PI / 180);
     BGctx.drawImage(backgroundImage, 10, 8, 419, 224, 0, 0, BGcanvas.width, BGcanvas.height);
     BGctx.drawImage(backgroundImage, 205, 255, 672, 33, 0, 570, BGcanvas.width, BGcanvas.height - 570);
     BGctx.drawImage(backgroundImageOver, 18, 340, 672, 200, 0, 0, BGcanvas.width, 580);
@@ -263,7 +268,12 @@ animationStates.forEach((state, index) => {
 // console.log(animationStates);
 function animate() {
 
-
+    if(playerState=="gethit" || playerState=="ko"){
+    canvas.style.transform="scale(-1,1)"; }
+    else
+    canvas.style.transform="scale(1,1)";
+    if(playerState=="ko" || playerOne.health<=0)
+    cancelAnimationFrame(animater);
     prevposition = position;
     position = Math.floor(gameFrame / staggerFrames) % spriteAnimations[playerState].loc.length;
     // let framex = spacebeginning +(spriteWidth+spacebetween) * position;
@@ -275,10 +285,11 @@ function animate() {
     spriteHeight = spriteAnimations[playerState].loc[position].frameheight;
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     background();
-    
-    ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
+    // ctx.scale(-1,1);
+    // ctx.rotate(-90);
+    ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 40, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
     }
     gameFrame++;
-    requestAnimationFrame(animate);
+    let animater=requestAnimationFrame(animate);
 };
 animate();
