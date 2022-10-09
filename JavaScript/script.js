@@ -10,14 +10,19 @@ BGcanvas.height = window.innerHeight;
 // let speed = 10, leftlocation = 150;
 // let toplocation = 380;
 let prevposition = 0;
+let prevposition2 = 0;
 let position;
+let position2;
 
 let x = 0;
 let y = 0;
 let velocityX = 100; //should be same as initial position of player for smooth start
 let velocityY = 380;
+let velocityX2 = 900; //should be same as initial position of player for smooth start
+let velocityY2 = 380;
 let gravity = 380;
 let canJump = true;
+let canJump2= true;
 let maxSpeed = 2;
 let keysPressed = [];
 
@@ -107,21 +112,21 @@ window.addEventListener('keydown', function (event) {
             // Event
             playerState = "punch"
             break;
-        case 'arrowleft':
+        case 'j':
             // Event
-            playerState = "forward";
+            keysPressed[event.key] = true;
             break;
-        case 'arrowright':
+        case 'l':
             // Event
-            playerState = "backward";
+            keysPressed[event.key] = true;
             break;
-        case 'arrowup':
+        case 'i':
             // Event
-            playerState = "jump";
+            keysPressed[event.key] = true;
             break;
-        case 'arrowdown':
+        case 'k':
             // Event
-            playerState = "crouch";
+            keysPressed[event.key] = true;
             break;
         case 'n':
             // Event
@@ -142,6 +147,7 @@ window.addEventListener('keydown', function (event) {
 
 window.addEventListener('keyup', function (event) {
     playerState = "idle";
+    playerState2="idle";
     keysPressed[event.key] = false;
     // if (toplocation != 380) {
     //     toplocation = 380;
@@ -341,6 +347,51 @@ function update() {
         keysPressed['a'] = false;
 
     }
+    if (keysPressed['l']) {
+        if (!keysPressed['k']) {
+            playerState2 = "backward";
+            velocityX2 += 30;
+            velocityX2 = Math.min(velocityX2, BGcanvas.width-300);
+            canvas2.style.left = velocityX2 + 'px';
+        }
+
+    }
+    if (keysPressed['j']) {
+        if (!keysPressed['k']) {
+            playerState2 = "forward";
+            velocityX2 -= 30;
+            velocityX2 = Math.max(velocityX2, 0);
+            canvas2.style.left = velocityX2 + 'px';
+        }
+
+    }
+    if (keysPressed['i']) {
+        playerState2 = "jump";
+        if (canJump2) {
+            canJump2 = false;
+            let jumpUp2 = setInterval(function () {
+                if (velocityY2 < 320) {
+                    clearInterval(jumpUp2)
+                    let jumpDown2 = setInterval(function () {
+                        if (velocityY2 >= 380) {
+                            clearInterval(jumpDown2);
+                            canJump2 = true;
+                        }
+                        velocityY2 += 10;
+                        canvas2.style.top = velocityY2 + 'px';
+                    }, 30)
+                }
+                velocityY2 -= 20;
+                canvas2.style.top = velocityY2 + 'px';
+            }, 40)
+        }
+    }
+    if (keysPressed['k']) {
+        playerState2 = "crouch";
+        keysPressed['k'] = false;
+        keysPressed['j'] = false;
+
+    }
 
 }
 
@@ -353,22 +404,24 @@ function animate() {
     if(playerState=="ko" || playerOne.health<=0)
     cancelAnimationFrame(animater);
     prevposition = position;
-    position = Math.floor(gameFrame / staggerFrames) % spriteAnimations[playerState].loc.length;
+    prevposition2 = position2;
+    position= Math.floor(gameFrame / staggerFrames) % spriteAnimations[playerState].loc.length;
+    position2= Math.floor(gameFrame / staggerFrames) % spriteAnimations[playerState2].loc.length;
     // let framex = spacebeginning +(spriteWidth+spacebetween) * position;
-    if (prevposition != position) {
+    if (prevposition != position || prevposition2!=position2) {
         let framey = spriteAnimations[playerState].loc[position].y;
         let framex = spriteAnimations[playerState].loc[position].x;
         spriteWidth = spriteAnimations[playerState].loc[position].framewidth;
         spriteHeight = spriteAnimations[playerState].loc[position].frameheight;
-        let framey2 = spriteAnimations[playerState2].loc[position].y;
-        let framex2 = spriteAnimations[playerState2].loc[position].x;
-        spriteWidth2 = spriteAnimations[playerState2].loc[position].framewidth;
-        spriteHeight2 = spriteAnimations[playerState2].loc[position].frameheight;
+        let framey2 = spriteAnimations[playerState2].loc[position2].y;
+        let framex2 = spriteAnimations[playerState2].loc[position2].x;
+        spriteWidth2 = spriteAnimations[playerState2].loc[position2].framewidth;
+        spriteHeight2 = spriteAnimations[playerState2].loc[position2].frameheight;
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         ctx2.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         background();
-        ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, spriteWidth*2.75, spriteHeight*2.75);
-        // ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
+        // ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, spriteWidth*2.75, spriteHeight*2.75);
+        ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
         ctx2.drawImage(playerImage, framex2, framey2, spriteWidth2, spriteHeight2, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
         canvas2.style.transform="scale(-1,1)";
         update();
