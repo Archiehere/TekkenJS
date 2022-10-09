@@ -302,20 +302,20 @@ function update() {
         if (canJump) {
             canJump = false;
             let jumpUp = setInterval(function() {
-                if(velocityY < 340) {
+                if(velocityY < 320) {
                     clearInterval(jumpUp)
                     let jumpDown = setInterval(function() {
-                        if(velocityY >= 380) {
+                        if(velocityY > 380) {
                             clearInterval(jumpDown);
                             canJump = true;
                         }
-                        velocityY += 30;
+                        velocityY += 10;
                         canvas.style.top = velocityY + 'px';
-                    })
+                    }, 30)
                 }
-                velocityY -= 25;
+                velocityY -= 20;
                 canvas.style.top = velocityY + 'px';
-            }, 200)}
+            }, 40)}
 
     }
 
