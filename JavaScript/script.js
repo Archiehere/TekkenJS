@@ -125,8 +125,11 @@ window.addEventListener('keydown', function (event) {
             break;
         case 'n':
             // Event
+            playerState="gethit";
             playerOne.health -= 10;
             playerOne.healthBar.style.width = playerOne.health + '%';
+            if(playerOne.health<=0)
+            playerState="ko";
             break;
         case 'm':
             // Event
@@ -153,6 +156,8 @@ let backgroundImageOver = new Image();
 backgroundImageOver.src = "images/background/backgroundSprite-removebg.png"
 
 function background() {
+    // BGctx.scale(-1,1);
+    // BGctx.rotate(45 * Math.PI / 180);
     BGctx.drawImage(backgroundImage, 10, 8, 419, 224, 0, 0, BGcanvas.width, BGcanvas.height);
     BGctx.drawImage(backgroundImage, 205, 255, 672, 33, 0, 570, BGcanvas.width, BGcanvas.height - 570);
     BGctx.drawImage(backgroundImageOver, 18, 340, 672, 200, 0, 0, BGcanvas.width, 580);
@@ -164,20 +169,25 @@ function background() {
 
 
 let playerState = 'intro';
+let playerState2 = 'intro';
 // const dropdown = document.getElementById('animations');
 // dropdown.addEventListener('change', function(e){
 // playerState = e.target.value;
 // })
 const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
-const CANVAS_WIDTH = canvas.width = 250;
-const CANVAS_HEIGHT = canvas.height = 350;
+const canvas2 = document.getElementById('canvas2');
+const ctx2 = canvas2.getContext('2d');
+const CANVAS_WIDTH = canvas.width =canvas2.width = 250;
+const CANVAS_HEIGHT = canvas.height =canvas2.height= 350;
 const playerImage = new Image();
 playerImage.src = 'images/Ryu.gif';
 let spriteWidth = 62;
 let spriteHeight = 115;
+let spriteWidth2 = 62;
+let spriteHeight2 = 115;
 let gameFrame = 0;
-const staggerFrames = 10;
+const staggerFrames = 15;
 const spriteAnimations = [];
 const animationStates = [
     {
@@ -203,7 +213,7 @@ const animationStates = [
         framexposition: [63, 144, 226, 307, 376, 453],
         frameswidth: [70, 70, 70, 70, 70, 70],
         framesheight: [110, 110, 110, 110, 110, 110],
-        frameyposition: spriteHeight * 2,
+        frameyposition: spriteHeight * 2 - 8,
     },
     {
         name: 'backward',
@@ -211,7 +221,7 @@ const animationStates = [
         framexposition: [64, 140, 219, 292, 368, 455],
         frameswidth: [70, 70, 70, 70, 70, 70],
         framesheight: [110, 110, 110, 110, 110, 110],
-        frameyposition: spriteHeight * 3,
+        frameyposition: spriteHeight * 3 -8,
     },
     {
         name: 'jump',
@@ -242,8 +252,8 @@ const animationStates = [
         frames: 4,
         framexposition: [8, 8, 88, 88, 425, 504],
         frameswidth: [73, 73, 73, 73, 73, 73],
-        framesheight: [110, 110, 110, 110, 110, 110],
-        frameyposition: spriteHeight * 5,
+        framesheight: [100, 100, 100, 100, 100, 100],
+        frameyposition: spriteHeight * 5 ,
     },
     {
         name: 'gethit',
@@ -289,7 +299,7 @@ function update() {
     if (keysPressed['d']) {
         if (!keysPressed['s']) {
             playerState = "forward";
-            velocityX += 50;
+            velocityX += 30;
             velocityX = Math.min(velocityX, BGcanvas.width-300);
             canvas.style.left = velocityX + 'px';
         }
@@ -298,7 +308,7 @@ function update() {
     if (keysPressed['a']) {
         if (!keysPressed['s']) {
             playerState = "backward";
-            velocityX -= 50;
+            velocityX -= 30;
             velocityX = Math.max(velocityX, 0);
             canvas.style.left = velocityX + 'px';
         }
@@ -336,7 +346,12 @@ function update() {
 
 function animate() {
 
-
+    if(playerState=="gethit" || playerState=="ko"){
+    canvas.style.transform="scale(-1,1)"; }
+    else
+    canvas.style.transform="scale(1,1)";
+    if(playerState=="ko" || playerOne.health<=0)
+    cancelAnimationFrame(animater);
     prevposition = position;
     position = Math.floor(gameFrame / staggerFrames) % spriteAnimations[playerState].loc.length;
     // let framex = spacebeginning +(spriteWidth+spacebetween) * position;
@@ -345,12 +360,19 @@ function animate() {
         let framex = spriteAnimations[playerState].loc[position].x;
         spriteWidth = spriteAnimations[playerState].loc[position].framewidth;
         spriteHeight = spriteAnimations[playerState].loc[position].frameheight;
+        let framey2 = spriteAnimations[playerState2].loc[position].y;
+        let framex2 = spriteAnimations[playerState2].loc[position].x;
+        spriteWidth2 = spriteAnimations[playerState2].loc[position].framewidth;
+        spriteHeight2 = spriteAnimations[playerState2].loc[position].frameheight;
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        ctx2.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         background();
         ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
+        ctx2.drawImage(playerImage, framex2, framey2, spriteWidth2, spriteHeight2, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
+        canvas2.style.transform="scale(-1,1)";
         update();
     }
     gameFrame++;
-    requestAnimationFrame(animate);
+    let animater=requestAnimationFrame(animate);
 };
 animate();

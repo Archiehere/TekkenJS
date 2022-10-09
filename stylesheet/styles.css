@@ -6,6 +6,15 @@ body {
     position: absolute;
     top: 380px;
     left: 150px;
+    /* transform: scale(-1,1); */
+    /* width: 600px;
+    height: 600px; */
+}
+#canvas2 {
+    position: absolute;
+    top: 380px;
+    left: 1000px;
+    /* transform: scale(-1,1); */
     /* width: 600px;
     height: 600px; */
 }
