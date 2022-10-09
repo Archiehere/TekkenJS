@@ -57,10 +57,9 @@ window.addEventListener('keydown', function (event) {
         case 'w':
             // Event
             playerState = "jump"
-            while (toplocation > 300) {
-                toplocation -= speed;
+                toplocation=300;
                 canvas.style.top = toplocation + "px";
-            }
+            
 
             break;
         case 'a':
@@ -75,6 +74,8 @@ window.addEventListener('keydown', function (event) {
         case 's':
             // Event
             playerState = "crouch";
+            toplocation=420;
+            canvas.style.top = toplocation + "px";
             break;
         case 'd':
             // Event
@@ -122,8 +123,8 @@ window.addEventListener('keydown', function (event) {
 })
 window.addEventListener('keyup', function () {
     playerState = "idle";
-    while (toplocation != 380) {
-        toplocation += speed;
+    if (toplocation != 380) {
+        toplocation=380;
         canvas.style.top = toplocation + "px";
     }
 })
@@ -157,7 +158,7 @@ playerImage.src = 'images/Ryu.gif';
 let spriteWidth = 62;
 let spriteHeight = 115;
 let gameFrame = 0;
-const staggerFrames = 8;
+const staggerFrames = 10;
 const spriteAnimations = [];
 const animationStates = [
     {
