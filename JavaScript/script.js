@@ -175,8 +175,10 @@ let playerState = 'intro';
 // })
 const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
-const CANVAS_WIDTH = canvas.width = 250;
-const CANVAS_HEIGHT = canvas.height = 350;
+const canvas2 = document.getElementById('canvas2');
+const ctx2 = canvas2.getContext('2d');
+const CANVAS_WIDTH = canvas.width =canvas2.width = 250;
+const CANVAS_HEIGHT = canvas.height =canvas2.height= 350;
 const playerImage = new Image();
 playerImage.src = 'images/Ryu.gif';
 let spriteWidth = 62;
@@ -343,8 +345,11 @@ function animate() {
         spriteWidth = spriteAnimations[playerState].loc[position].framewidth;
         spriteHeight = spriteAnimations[playerState].loc[position].frameheight;
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        ctx2.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         background();
         ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
+        ctx2.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
+        canvas2.style.transform="scale(-1,1)";
         update();
     }
     gameFrame++;
