@@ -9,7 +9,7 @@ BGcanvas.width = window.innerWidth;
 BGcanvas.height = window.innerHeight;
 let speed = 10, leftlocation = 150;
 let toplocation = 380;
-let prevposition=0;
+let prevposition = 0;
 let position;
 
 // Temporary variable for player one health
@@ -22,6 +22,34 @@ let playerTwo = {
     health: 100,
     healthBar: document.getElementById('health-two')
 }
+
+// Timer
+
+function startTimer() {
+    let timer = document.getElementById('timer');
+    let time = 3;
+    const prevtimeInterval = setInterval(function () {
+        timer.innerText = time;
+        time--;
+        if (time === -1) {
+            clearInterval(prevtimeInterval);
+            time = 60;
+            timer.innerText = "Start";
+            setInterval(function() {
+                time = Math.max(time, 0);
+                timer.innerText = time;
+                time--;
+                if (time === -1) {
+                    clearInterval(prevtimeInterval);
+                }
+            }, 1000);
+        }
+    }, 1000);
+    console.log("Match ended");
+}
+startTimer();
+
+
 
 
 // Event Listeners
@@ -235,8 +263,8 @@ animationStates.forEach((state, index) => {
 // console.log(animationStates);
 function animate() {
 
-    
-    prevposition=position;
+
+    prevposition = position;
     position = Math.floor(gameFrame / staggerFrames) % spriteAnimations[playerState].loc.length;
     // let framex = spacebeginning +(spriteWidth+spacebetween) * position;
     if(prevposition!=position)
