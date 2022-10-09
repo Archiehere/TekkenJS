@@ -67,7 +67,7 @@ window.addEventListener('keydown', function (event) {
     switch (event.key.toLocaleLowerCase()) {
         case 'w':
             // Event
-            playerState = "jump"
+            
             keysPressed[event.key] = true;
             // toplocation = 300;
             // canvas.style.top = toplocation + "px";
@@ -76,7 +76,7 @@ window.addEventListener('keydown', function (event) {
             break;
         case 'a':
             // Event
-            playerState = "backward";
+            
             keysPressed[event.key] = true;
             // if (leftlocation > 10)
             //     leftlocation -= speed;
@@ -86,14 +86,14 @@ window.addEventListener('keydown', function (event) {
             break;
         case 's':
             // Event
-            playerState = "crouch";
+            
             keysPressed[event.key] = true;
             // toplocation = 420;
             // canvas.style.top = toplocation + "px";
             break;
         case 'd':
             // Event
-            playerState = "forward";
+            
             keysPressed[event.key] = true;
             // if (leftlocation < 1200)
             //     leftlocation += speed;
@@ -156,7 +156,7 @@ function background() {
     BGctx.drawImage(backgroundImage, 10, 8, 419, 224, 0, 0, BGcanvas.width, BGcanvas.height);
     BGctx.drawImage(backgroundImage, 205, 255, 672, 33, 0, 570, BGcanvas.width, BGcanvas.height - 570);
     BGctx.drawImage(backgroundImageOver, 18, 340, 672, 200, 0, 0, BGcanvas.width, 580);
-    
+
 }
 
 
@@ -286,26 +286,33 @@ drawCharacter();
 
 // const gravity = 0.5;
 function update() {
-
-
     if (keysPressed['d']) {
-        velocityX += 50;
-        canvas.style.left = velocityX + 'px';
+        if (!keysPressed['s']) {
+            playerState = "forward";
+            velocityX += 50;
+            velocityX = Math.min(velocityX, BGcanvas.width-300);
+            canvas.style.left = velocityX + 'px';
+        }
+
     }
     if (keysPressed['a']) {
-        velocityX -= 50;
+        if (!keysPressed['s']) {
+            playerState = "backward";
+            velocityX -= 50;
+            velocityX = Math.max(velocityX, 0);
+            canvas.style.left = velocityX + 'px';
+        }
 
-        canvas.style.left = velocityX + 'px';
     }
     if (keysPressed['w']) {
-
+        playerState = "jump";
         if (canJump) {
             canJump = false;
-            let jumpUp = setInterval(function() {
-                if(velocityY < 320) {
+            let jumpUp = setInterval(function () {
+                if (velocityY < 320) {
                     clearInterval(jumpUp)
-                    let jumpDown = setInterval(function() {
-                        if(velocityY > 380) {
+                    let jumpDown = setInterval(function () {
+                        if (velocityY >= 380) {
                             clearInterval(jumpDown);
                             canJump = true;
                         }
@@ -315,7 +322,13 @@ function update() {
                 }
                 velocityY -= 20;
                 canvas.style.top = velocityY + 'px';
-            }, 40)}
+            }, 40)
+        }
+    }
+    if (keysPressed['s']) {
+        playerState = "crouch";
+        keysPressed['d'] = false;
+        keysPressed['a'] = false;
 
     }
 
