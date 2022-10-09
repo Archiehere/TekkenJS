@@ -182,7 +182,7 @@ playerImage.src = 'images/Ryu.gif';
 let spriteWidth = 62;
 let spriteHeight = 115;
 let gameFrame = 0;
-const staggerFrames = 10;
+const staggerFrames = 15;
 const spriteAnimations = [];
 const animationStates = [
     {
@@ -208,7 +208,7 @@ const animationStates = [
         framexposition: [63, 144, 226, 307, 376, 453],
         frameswidth: [70, 70, 70, 70, 70, 70],
         framesheight: [110, 110, 110, 110, 110, 110],
-        frameyposition: spriteHeight * 2,
+        frameyposition: spriteHeight * 2 - 8,
     },
     {
         name: 'backward',
@@ -216,7 +216,7 @@ const animationStates = [
         framexposition: [64, 140, 219, 292, 368, 455],
         frameswidth: [70, 70, 70, 70, 70, 70],
         framesheight: [110, 110, 110, 110, 110, 110],
-        frameyposition: spriteHeight * 3,
+        frameyposition: spriteHeight * 3 -8,
     },
     {
         name: 'jump',
@@ -247,8 +247,8 @@ const animationStates = [
         frames: 4,
         framexposition: [8, 8, 88, 88, 425, 504],
         frameswidth: [73, 73, 73, 73, 73, 73],
-        framesheight: [110, 110, 110, 110, 110, 110],
-        frameyposition: spriteHeight * 5,
+        framesheight: [100, 100, 100, 100, 100, 100],
+        frameyposition: spriteHeight * 5 ,
     },
     {
         name: 'gethit',
@@ -294,11 +294,11 @@ function update() {
 
 
     if (keysPressed['d']) {
-        velocityX += 50;
+        velocityX += 30;
         canvas.style.left = velocityX + 'px';
     }
     if (keysPressed['a']) {
-        velocityX -= 50;
+        velocityX -= 30;
 
         canvas.style.left = velocityX + 'px';
     }
