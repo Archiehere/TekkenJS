@@ -151,16 +151,8 @@ function background() {
 
 }
 
-
-
-
-
 let playerState = 'intro';
 let playerState2 = 'intro';
-// const dropdown = document.getElementById('animations');
-// dropdown.addEventListener('change', function(e){
-// playerState = e.target.value;
-// })
 const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
 const canvas2 = document.getElementById('canvas2');
@@ -281,7 +273,6 @@ drawCharacter();
 // console.log(animationStates);
 
 
-// const gravity = 0.5;
 function update() {
     
     if (keysPressed['d']) {
@@ -355,7 +346,7 @@ function update() {
                 if (velocityY2 < 320) {
                     clearInterval(jumpUp2)
                     let jumpDown2 = setInterval(function () {
-                        if (velocityY2 >= 380) {
+                        if (velocityY2 >= 370) {
                             clearInterval(jumpDown2);
                             canJump2 = true;
                         }
