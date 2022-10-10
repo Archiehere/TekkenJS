@@ -83,11 +83,11 @@ window.addEventListener('keydown', function (event) {
             keysPressed[event.key] = true;
             break;
         case 'z':
-            playerState = "kick";
+            keysPressed[event.key] = true;
             break;
         case 'x':
             // Event
-            playerState = "punch"
+            keysPressed[event.key] = true;
             break;
         case 'j':
             // Event
@@ -119,9 +119,7 @@ window.addEventListener('keydown', function (event) {
             break;
         case 'm':
             // Event
-            playerTwo.health -= 10;
-            playerTwo.healthBar.style.width = playerTwo.health + '%';
-            playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
+            
             break;
     }
 })
@@ -160,7 +158,9 @@ const ctx2 = canvas2.getContext('2d');
 const CANVAS_WIDTH = canvas.width =canvas2.width = 250;
 const CANVAS_HEIGHT = canvas.height =canvas2.height= 350;
 const playerImage = new Image();
+const playerImage2 = new Image();
 playerImage.src = 'images/Ryu.gif';
+playerImage2.src = 'images/Ryu.gif';
 let spriteWidth = 62;
 let spriteHeight = 115;
 let spriteWidth2 = 62;
@@ -275,6 +275,44 @@ drawCharacter();
 
 function update() {
     
+    if (keysPressed['z']) {
+        
+            playerState = "kick";
+            // velocityX += 30;
+            // velocityX = Math.min(velocityX, 
+              if(velocityX> velocityX2- CANVAS_WIDTH) {//|| velocityX< velocityX2- CANVAS_WIDTH/2);
+                if (canHit) {
+                    canHit = false;
+                    let damageState = setInterval(function () {
+                        
+                        // if () {
+                        //     clearInterval(jumpUp)
+                        //     let jumpDown = setInterval(function () {
+                        //         if (velocityY >= 370) {
+                        //             clearInterval(jumpDown);
+                        //             canJump = true;
+                        //         }
+                        //         velocityY += 10;
+                        //         canvas.style.top = velocityY + 'px';
+                        //     }, 30)
+                        // }
+                        // velocityY -= 20;
+                        // canvas.style.top = velocityY + 'px';
+                    }, 40)
+                }
+
+      
+                
+              
+                
+            }
+            canvas.style.left = velocityX + 'px';
+        
+
+    }
+    
+    
+
     if (keysPressed['d']) {
         if (!keysPressed['s']) {
             playerState = "forward";
@@ -365,7 +403,7 @@ function update() {
         keysPressed['j'] = false;
 
     }
-    console.log(canvas2.style.left);
+    // console.log(canvas2.style.left);
 
 }
 
@@ -396,7 +434,7 @@ function animate() {
         background();
         // ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, spriteWidth*2.75, spriteHeight*2.75);
         ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
-        ctx2.drawImage(playerImage, framex2, framey2, spriteWidth2, spriteHeight2, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
+        ctx2.drawImage(playerImage2, framex2, framey2, spriteWidth2, spriteHeight2, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
         canvas2.style.transform="scale(-1,1)";
         update();
     }
