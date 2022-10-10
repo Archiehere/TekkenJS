@@ -274,6 +274,26 @@ drawCharacter();
 
 
 function update() {
+    
+    if (keysPressed['z']) {
+        
+            playerState = "kick";
+            // velocityX += 30;
+            // velocityX = Math.min(velocityX, 
+              if(velocityX> velocityX2- CANVAS_WIDTH) {//|| velocityX< velocityX2- CANVAS_WIDTH/2);
+              playerTwo.health -= 10;
+              playerState2="gethit";
+            playerTwo.healthBar.style.width = playerTwo.health + '%';
+            playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
+            
+                
+            }
+            canvas.style.left = velocityX + 'px';
+        
+
+    }
+    
+    
 
     if (keysPressed['d']) {
         if (!keysPressed['s']) {
