@@ -7,8 +7,6 @@ const BGctx = BGcanvas.getContext('2d');
 // BGctx.scale(-1,1);
 BGcanvas.width = window.innerWidth;
 BGcanvas.height = window.innerHeight;
-// let speed = 10, leftlocation = 150;
-// let toplocation = 380;
 let prevposition = 0;
 let prevposition2 = 0;
 let position;
@@ -29,6 +27,8 @@ let canPunchOne = true;
 let canPunchTwo = true;
 let maxSpeed = 2;
 let keysPressed = [];
+let gameStartFlag = false; // for 3 sec in starting
+
 
 
 // Temporary variable for player one health
@@ -43,23 +43,26 @@ let playerTwo = {
 }
 
 // Timer
-
+let matchTimeInterval;
 function startTimer() {
     let timer = document.getElementById('timer');
     let time = 3;
-    const prevtimeInterval = setInterval(function () {
+    prevtimeInterval = setInterval(function () {
         timer.innerText = time;
         time--;
         if (time === -1) {
             clearInterval(prevtimeInterval);
             time = 60;
             timer.innerText = "Start";
-            setInterval(function () {
+            matchTimeInterval = setInterval(function () {
                 time = Math.max(time, 0);
                 timer.innerText = time;
+                gameStartFlag = true;
                 time--;
                 if (time === -1) {
-                    clearInterval(prevtimeInterval);
+                    gameStartFlag = false;
+                    winner();
+                    clearInterval(matchTimeInterval);
                 }
             }, 1000);
         }
@@ -93,23 +96,15 @@ window.addEventListener('keydown', function (event) {
             keysPressed[event.key] = true;
             break;
         case 'j':
-            // Event
-            playerState2 = "forward";
             keysPressed[event.key] = true;
             break;
         case 'l':
-            // Event
-            playerState2 = "backward";
             keysPressed[event.key] = true;
             break;
         case 'i':
-            // Event
-            playerState2 = "jump";
             keysPressed[event.key] = true;
             break;
         case 'k':
-            // Event
-            playerState2 = "crouch";
             keysPressed[event.key] = true;
             break;
         case 'o':
@@ -117,20 +112,6 @@ window.addEventListener('keydown', function (event) {
             break;
         case 'p':
             keysPressed[event.key] = true;
-        // case 'n':
-        //     // Event
-        //     playerState = "gethit";
-        //     playerOne.health -= 10;
-        //     playerOne.healthBar.style.width = playerOne.health + '%';
-        //     if (playerOne.health <= 0)
-        //         playerState = "ko";
-        //     break;
-        // case 'm':
-        //     // Event
-        //     playerTwo.health -= 10;
-        //     playerTwo.healthBar.style.width = playerTwo.health + '%';
-        //     playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
-        //     break;
     }
 })
 
@@ -138,10 +119,6 @@ window.addEventListener('keyup', function (event) {
     playerState = "idle";
     playerState2 = "idle";
     keysPressed[event.key] = false;
-    // if (toplocation != 380) {
-    //     toplocation = 380;
-    //     canvas.style.top = toplocation + "px";
-    // }
 })
 
 let backgroundImage = new Image();
@@ -174,7 +151,7 @@ let spriteHeight = 115;
 let spriteWidth2 = 62;
 let spriteHeight2 = 115;
 let gameFrame = 0;
-const staggerFrames = 10;
+const staggerFrames = 5;
 const spriteAnimations = [];
 const animationStates = [
     {
@@ -283,36 +260,13 @@ drawCharacter();
 
 function update() {
 
-    if (keysPressed['z']) {
-        playerState = "kick";
-        // console.log(velocityX, velocityX2 - CANVAS_WIDTH);
-        if (velocityX > velocityX2 - CANVAS_WIDTH) {//|| velocityX< velocityX2- CANVAS_WIDTH/2);
-            console.log("Hit");
-            if (canKickOne) {
-                canKickOne = false;
-                let hitState = setInterval(function () {
-                    let tempHealth = playerTwo.health;
-                    playerTwo.health -= 10;
-                    playerState2 = "gethit";
-                    playerTwo.healthBar.style.width = playerTwo.health + '%';
-                    playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
-                    if (playerTwo.health <= tempHealth - 10) {
-                        keysPressed['z'] = false;
-                        clearInterval(hitState);
-                        setTimeout(function () {
-                            canKickOne = true;
-                        }, 1000);
-                    }
-                }, 100)
-            }
-        }
-    }
-
-    if (keysPressed['x']) {
-        playerState = "punch";
-        if (!keysPressed['k']) {
+    if (gameStartFlag) {
+        if (keysPressed['z']) {
+            playerState = "kick";
             if (velocityX > velocityX2 - CANVAS_WIDTH) {
-                if (canPunchOne) {
+                console.log("Hit");
+                if (canKickOne) {
+                    canKickOne = false;
                     canPunchOne = false;
                     let hitState = setInterval(function () {
                         let tempHealth = playerTwo.health;
@@ -321,110 +275,116 @@ function update() {
                         playerTwo.healthBar.style.width = playerTwo.health + '%';
                         playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
                         if (playerTwo.health <= tempHealth - 10) {
-                            keysPressed['x'] = false;
+                            keysPressed['z'] = false;
                             clearInterval(hitState);
                             setTimeout(function () {
+                                canKickOne = true;
                                 canPunchOne = true;
-                            }, 800);
+                            }, 1000);
                         }
                     }, 100)
                 }
             }
         }
-    }
 
-    if (keysPressed['d']) {
-        if (!keysPressed['s']) {
-            playerState = "forward";
-            velocityX += 30;
-            velocityX = Math.min(velocityX, velocityX2 - CANVAS_WIDTH / 2);
-            canvas.style.left = velocityX + 'px';
-        }
 
-    }
-    if (keysPressed['a']) {
-        if (!keysPressed['s']) {
-            playerState = "backward";
-            velocityX -= 30;
-            velocityX = Math.max(velocityX, 0);
-            canvas.style.left = velocityX + 'px';
-        }
-
-    }
-    if (keysPressed['w']) {
-        playerState = "jump";
-        if (canJump) {
-            canJump = false;
-            let jumpUp = setInterval(function () {
-                if (velocityY < 320) {
-                    clearInterval(jumpUp)
-                    let jumpDown = setInterval(function () {
-                        if (velocityY >= 370) {
-                            clearInterval(jumpDown);
-                            canJump = true;
-                        }
-                        velocityY += 10;
-                        canvas.style.top = velocityY + 'px';
-                    }, 30)
-                }
-                velocityY -= 20;
-                canvas.style.top = velocityY + 'px';
-            }, 40)
-        }
-    }
-    if (keysPressed['s']) {
-        playerState = "crouch";
-        keysPressed['d'] = false;
-        keysPressed['a'] = false;
-
-    }
-    if (keysPressed['l']) {
-        if (!keysPressed['k']) {
-            playerState2 = "backward";
-            velocityX2 += 30;
-            velocityX2 = Math.min(velocityX2, BGcanvas.width - 300);
-            canvas2.style.left = velocityX2 + 'px';
-        }
-
-    }
-    if (keysPressed['j']) {
-        if (!keysPressed['k']) {
-            playerState2 = "forward";
-            velocityX2 -= 30;
-            velocityX2 = Math.max(velocityX2, velocityX + CANVAS_WIDTH / 2);
-            canvas2.style.left = velocityX2 + 'px';
-        }
-
-    }
-
-    if (keysPressed['o']) {
-        playerState2 = "kick";
-        // console.log(velocityX, velocityX2 - CANVAS_WIDTH);
-        if (velocityX2 < velocityX + CANVAS_WIDTH) {//|| velocityX< velocityX2- CANVAS_WIDTH/2);
-            console.log("Hit");
-            if (canKickTwo) {
-                canKickTwo = false;
-                let hitState = setInterval(function () {
-                    let tempHealth = playerOne.health;
-                    playerOne.health -= 10;
-                    playerState = "gethit";
-                    playerOne.healthBar.style.width = playerOne.health + '%';
-                    if (playerOne.health <= tempHealth - 10) {
-                        keysPressed['o'] = false;
-                        clearInterval(hitState);
-                        setTimeout(function () {
-                            canKickTwo = true;
-                        }, 1000);
+        if (keysPressed['x']) {
+            playerState = "punch";
+            if (!keysPressed['k']) {
+                if (velocityX > velocityX2 - CANVAS_WIDTH) {
+                    if (canPunchOne) {
+                        canPunchOne = false;
+                        canKickOne = false;
+                        let hitState = setInterval(function () {
+                            let tempHealth = playerTwo.health;
+                            playerTwo.health -= 10;
+                            playerState2 = "gethit";
+                            playerTwo.healthBar.style.width = playerTwo.health + '%';
+                            playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
+                            if (playerTwo.health <= tempHealth - 10) {
+                                keysPressed['x'] = false;
+                                clearInterval(hitState);
+                                setTimeout(function () {
+                                    canPunchOne = true;
+                                    canKickOne = false;
+                                }, 800);
+                            }
+                        }, 100)
                     }
-                }, 100)
+                }
             }
         }
-    }
-    if (keysPressed['p']) {
-        playerState2 = "punch";
-        if (!keysPressed['s']) {
+
+        if (keysPressed['d']) {
+            if (!keysPressed['s']) {
+                playerState = "forward";
+                velocityX += 30;
+                velocityX = Math.min(velocityX, velocityX2 - CANVAS_WIDTH / 2);
+                canvas.style.left = velocityX + 'px';
+            }
+
+        }
+        if (keysPressed['a']) {
+            if (!keysPressed['s']) {
+                playerState = "backward";
+                velocityX -= 30;
+                velocityX = Math.max(velocityX, 0);
+                canvas.style.left = velocityX + 'px';
+            }
+
+        }
+        if (keysPressed['w']) {
+            playerState = "jump";
+            if (canJump) {
+                canJump = false;
+                let jumpUp = setInterval(function () {
+                    if (velocityY < 320) {
+                        clearInterval(jumpUp)
+                        let jumpDown = setInterval(function () {
+                            if (velocityY >= 370) {
+                                clearInterval(jumpDown);
+                                canJump = true;
+                            }
+                            velocityY += 10;
+                            canvas.style.top = velocityY + 'px';
+                        }, 30)
+                    }
+                    velocityY -= 20;
+                    canvas.style.top = velocityY + 'px';
+                }, 40)
+            }
+        }
+        if (keysPressed['s']) {
+            playerState = "crouch";
+            keysPressed['d'] = false;
+            keysPressed['a'] = false;
+
+        }
+        if (keysPressed['l']) {
+            if (!keysPressed['k']) {
+                playerState2 = "backward";
+                velocityX2 += 30;
+                velocityX2 = Math.min(velocityX2, BGcanvas.width - 300);
+                canvas2.style.left = velocityX2 + 'px';
+            }
+
+        }
+        if (keysPressed['j']) {
+            if (!keysPressed['k']) {
+                playerState2 = "forward";
+                velocityX2 -= 30;
+                velocityX2 = Math.max(velocityX2, velocityX + CANVAS_WIDTH / 2);
+                canvas2.style.left = velocityX2 + 'px';
+            }
+
+        }
+
+        if (keysPressed['o']) {
+            playerState2 = "kick";
             if (velocityX2 < velocityX + CANVAS_WIDTH) {
-                if (canPunchTwo) {
+                console.log("Hit");
+                if (canKickTwo) {
+                    canKickTwo = false;
                     canPunchTwo = false;
                     let hitState = setInterval(function () {
                         let tempHealth = playerOne.health;
@@ -432,46 +392,74 @@ function update() {
                         playerState = "gethit";
                         playerOne.healthBar.style.width = playerOne.health + '%';
                         if (playerOne.health <= tempHealth - 10) {
-                            keysPressed['p'] = false;
+                            keysPressed['o'] = false;
                             clearInterval(hitState);
                             setTimeout(function () {
+                                canKickTwo = true;
                                 canPunchTwo = true;
-                            }, 800);
+                            }, 1000);
                         }
                     }, 100)
                 }
             }
         }
-    }
-
-    if (keysPressed['i']) {
-        playerState2 = "jump";
-        if (canJump2) {
-            canJump2 = false;
-            let jumpUp2 = setInterval(function () {
-                if (velocityY2 < 320) {
-                    clearInterval(jumpUp2)
-                    let jumpDown2 = setInterval(function () {
-                        if (velocityY2 >= 370) {
-                            clearInterval(jumpDown2);
-                            canJump2 = true;
-                        }
-                        velocityY2 += 10;
-                        canvas2.style.top = velocityY2 + 'px';
-                    }, 30)
+        if (keysPressed['p']) {
+            playerState2 = "punch";
+            if (!keysPressed['s']) {
+                if (velocityX2 < velocityX + CANVAS_WIDTH) {
+                    if (canPunchTwo) {
+                        canPunchTwo = false;
+                        canKickTwo = false;
+                        let hitState = setInterval(function () {
+                            let tempHealth = playerOne.health;
+                            playerOne.health -= 10;
+                            playerState = "gethit";
+                            playerOne.healthBar.style.width = playerOne.health + '%';
+                            if (playerOne.health <= tempHealth - 10) {
+                                keysPressed['p'] = false;
+                                clearInterval(hitState);
+                                setTimeout(function () {
+                                    canPunchTwo = true;
+                                    canKickTwo = true;
+                                }, 800);
+                            }
+                        }, 100)
+                    }
                 }
-                velocityY2 -= 20;
-                canvas2.style.top = velocityY2 + 'px';
-            }, 40)
+            }
+        }
+
+        if (keysPressed['i']) {
+            playerState2 = "jump";
+            if (canJump2) {
+                canJump2 = false;
+                let jumpUp2 = setInterval(function () {
+                    if (velocityY2 < 320) {
+                        clearInterval(jumpUp2)
+                        let jumpDown2 = setInterval(function () {
+                            if (velocityY2 >= 370) {
+                                clearInterval(jumpDown2);
+                                canJump2 = true;
+                            }
+                            velocityY2 += 10;
+                            canvas2.style.top = velocityY2 + 'px';
+                        }, 30)
+                    }
+                    velocityY2 -= 20;
+                    canvas2.style.top = velocityY2 + 'px';
+                }, 40)
+            }
+        }
+        if (keysPressed['k']) {
+            playerState2 = "crouch";
+            keysPressed['l'] = false;
+            keysPressed['j'] = false;
+
         }
     }
-    if (keysPressed['k']) {
-        playerState2 = "crouch";
-        keysPressed['l'] = false;
-        keysPressed['j'] = false;
-
+    if (playerOne.health == 0 || playerTwo.health == 0) {
+        winner();
     }
-    // console.log(canvas2.style.left);
 
 }
 
@@ -482,8 +470,6 @@ function animate() {
     }
     else
         canvas.style.transform = "scale(1,1)";
-    if (playerState == "ko" || playerOne.health <= 0)
-        cancelAnimationFrame(animater);
     prevposition = position;
     prevposition2 = position2;
     position = Math.floor(gameFrame / staggerFrames) % spriteAnimations[playerState].loc.length;
@@ -521,4 +507,24 @@ function animate() {
 
 >>>>>>> 72837d4c9631064618ca9e2159e0951b88eb0f55
 };
+
+function winner() {
+    gameStartFlag = false;
+    clearInterval(matchTimeInterval);
+    if (playerOne.health > playerTwo.health) {
+        playerState = 'idle';
+        playerState2 = 'ko';
+        console.log("Player One Wins");
+    } else if (playerOne.health < playerTwo.health) {
+        console.log("Player Two Wins");
+        playerState2 = 'idle';
+        playerState = 'ko';
+    } else {
+        console.log("Its a draw");
+        playerState2 = 'idle';
+        playerState = 'idle';
+
+    }
+}
+
 animate();
