@@ -116,20 +116,20 @@ window.addEventListener('keydown', function (event) {
         case 'o':
             keysPressed[event.key] = true;
             break;
-        case 'n':
-            // Event
-            playerState = "gethit";
-            playerOne.health -= 10;
-            playerOne.healthBar.style.width = playerOne.health + '%';
-            if (playerOne.health <= 0)
-                playerState = "ko";
-            break;
-        case 'm':
-            // Event
-            playerTwo.health -= 10;
-            playerTwo.healthBar.style.width = playerTwo.health + '%';
-            playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
-            break;
+        // case 'n':
+        //     // Event
+        //     playerState = "gethit";
+        //     playerOne.health -= 10;
+        //     playerOne.healthBar.style.width = playerOne.health + '%';
+        //     if (playerOne.health <= 0)
+        //         playerState = "ko";
+        //     break;
+        // case 'm':
+        //     // Event
+        //     playerTwo.health -= 10;
+        //     playerTwo.healthBar.style.width = playerTwo.health + '%';
+        //     playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
+        //     break;
     }
 })
 
@@ -173,7 +173,7 @@ let spriteHeight = 115;
 let spriteWidth2 = 62;
 let spriteHeight2 = 115;
 let gameFrame = 0;
-const staggerFrames = 5;
+const staggerFrames = 10;
 const spriteAnimations = [];
 const animationStates = [
     {
@@ -458,9 +458,15 @@ function animate() {
         ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
         ctx2.drawImage(playerImage, framex2, framey2, spriteWidth2, spriteHeight2, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
         canvas2.style.transform = "scale(-1,1)";
+        if(playerState2 == "gethit" || playerState2 == "ko")
+        canvas2.style.transform = "scale(1,1)";
+
         update();
     }
     gameFrame++;
-    let animater = requestAnimationFrame(animate);
+    setTimeout(() => {
+        let animater = requestAnimationFrame(animate);
+    },1000/140);
+    
 };
 animate();
