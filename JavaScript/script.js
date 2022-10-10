@@ -83,11 +83,11 @@ window.addEventListener('keydown', function (event) {
             keysPressed[event.key] = true;
             break;
         case 'z':
-            playerState = "kick";
+            keysPressed[event.key] = true;
             break;
         case 'x':
             // Event
-            playerState = "punch"
+            keysPressed[event.key] = true;
             break;
         case 'j':
             // Event
@@ -119,9 +119,7 @@ window.addEventListener('keydown', function (event) {
             break;
         case 'm':
             // Event
-            playerTwo.health -= 10;
-            playerTwo.healthBar.style.width = playerTwo.health + '%';
-            playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
+            
             break;
     }
 })
@@ -286,6 +284,44 @@ drawCharacter();
 // const gravity = 0.5;
 function update() {
     
+    if (keysPressed['z']) {
+        
+            playerState = "kick";
+            // velocityX += 30;
+            // velocityX = Math.min(velocityX, 
+              if(velocityX> velocityX2- CANVAS_WIDTH) {//|| velocityX< velocityX2- CANVAS_WIDTH/2);
+                if (canHit) {
+                    canHit = false;
+                    let damageState = setInterval(function () {
+                        
+                        // if () {
+                        //     clearInterval(jumpUp)
+                        //     let jumpDown = setInterval(function () {
+                        //         if (velocityY >= 370) {
+                        //             clearInterval(jumpDown);
+                        //             canJump = true;
+                        //         }
+                        //         velocityY += 10;
+                        //         canvas.style.top = velocityY + 'px';
+                        //     }, 30)
+                        // }
+                        // velocityY -= 20;
+                        // canvas.style.top = velocityY + 'px';
+                    }, 40)
+                }
+
+      
+                
+              
+                
+            }
+            canvas.style.left = velocityX + 'px';
+        
+
+    }
+    
+    
+
     if (keysPressed['d']) {
         if (!keysPressed['s']) {
             playerState = "forward";
@@ -357,7 +393,7 @@ function update() {
                 if (velocityY2 < 320) {
                     clearInterval(jumpUp2)
                     let jumpDown2 = setInterval(function () {
-                        if (velocityY2 >= 380) {
+                        if (velocityY2 >= 370) {
                             clearInterval(jumpDown2);
                             canJump2 = true;
                         }
@@ -376,7 +412,7 @@ function update() {
         keysPressed['j'] = false;
 
     }
-    console.log(canvas2.style.left);
+    // console.log(canvas2.style.left);
 
 }
 
