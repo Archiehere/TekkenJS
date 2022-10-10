@@ -90,8 +90,7 @@ window.addEventListener('keydown', function (event) {
             keysPressed[event.key] = true;
             break;
         case 'x':
-            // Event
-            playerState = "punch"
+            keysPressed[event.key] = true;
             break;
         case 'j':
             // Event
@@ -116,6 +115,8 @@ window.addEventListener('keydown', function (event) {
         case 'o':
             keysPressed[event.key] = true;
             break;
+        case 'p':
+            keysPressed[event.key] = true;
         // case 'n':
         //     // Event
         //     playerState = "gethit";
@@ -284,7 +285,7 @@ function update() {
 
     if (keysPressed['z']) {
         playerState = "kick";
-        console.log(velocityX, velocityX2 - CANVAS_WIDTH);
+        // console.log(velocityX, velocityX2 - CANVAS_WIDTH);
         if (velocityX > velocityX2 - CANVAS_WIDTH) {//|| velocityX< velocityX2- CANVAS_WIDTH/2);
             console.log("Hit");
             if (canKickOne) {
@@ -295,10 +296,10 @@ function update() {
                     playerState2 = "gethit";
                     playerTwo.healthBar.style.width = playerTwo.health + '%';
                     playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
-                    if(playerTwo.health <= tempHealth - 10 ) {
+                    if (playerTwo.health <= tempHealth - 10) {
                         keysPressed['z'] = false;
                         clearInterval(hitState);
-                        setTimeout(function() {
+                        setTimeout(function () {
                             canKickOne = true;
                         }, 1000);
                     }
@@ -307,7 +308,30 @@ function update() {
         }
     }
 
-
+    if (keysPressed['x']) {
+        playerState = "punch";
+        if (!keysPressed['k']) {
+            if (velocityX > velocityX2 - CANVAS_WIDTH) {
+                if (canPunchOne) {
+                    canPunchOne = false;
+                    let hitState = setInterval(function () {
+                        let tempHealth = playerTwo.health;
+                        playerTwo.health -= 10;
+                        playerState2 = "gethit";
+                        playerTwo.healthBar.style.width = playerTwo.health + '%';
+                        playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
+                        if (playerTwo.health <= tempHealth - 10) {
+                            keysPressed['x'] = false;
+                            clearInterval(hitState);
+                            setTimeout(function () {
+                                canPunchOne = true;
+                            }, 800);
+                        }
+                    }, 100)
+                }
+            }
+        }
+    }
 
     if (keysPressed['d']) {
         if (!keysPressed['s']) {
@@ -385,14 +409,37 @@ function update() {
                     playerOne.health -= 10;
                     playerState = "gethit";
                     playerOne.healthBar.style.width = playerOne.health + '%';
-                    if(playerOne.health <= tempHealth - 10 ) {
+                    if (playerOne.health <= tempHealth - 10) {
                         keysPressed['o'] = false;
                         clearInterval(hitState);
-                        setTimeout(function() {
+                        setTimeout(function () {
                             canKickTwo = true;
                         }, 1000);
                     }
                 }, 100)
+            }
+        }
+    }
+    if (keysPressed['p']) {
+        playerState2 = "punch";
+        if (!keysPressed['s']) {
+            if (velocityX2 < velocityX + CANVAS_WIDTH) {
+                if (canPunchTwo) {
+                    canPunchTwo = false;
+                    let hitState = setInterval(function () {
+                        let tempHealth = playerOne.health;
+                        playerOne.health -= 10;
+                        playerState = "gethit";
+                        playerOne.healthBar.style.width = playerOne.health + '%';
+                        if (playerOne.health <= tempHealth - 10) {
+                            keysPressed['p'] = false;
+                            clearInterval(hitState);
+                            setTimeout(function () {
+                                canPunchTwo = true;
+                            }, 800);
+                        }
+                    }, 100)
+                }
             }
         }
     }
@@ -458,15 +505,15 @@ function animate() {
         ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
         ctx2.drawImage(playerImage, framex2, framey2, spriteWidth2, spriteHeight2, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
         canvas2.style.transform = "scale(-1,1)";
-        if(playerState2 == "gethit" || playerState2 == "ko")
-        canvas2.style.transform = "scale(1,1)";
+        if (playerState2 == "gethit" || playerState2 == "ko")
+            canvas2.style.transform = "scale(1,1)";
 
         update();
     }
     gameFrame++;
     setTimeout(() => {
         let animater = requestAnimationFrame(animate);
-    },1000/140);
-    
+    }, 1000 / 140);
+
 };
 animate();
