@@ -16,9 +16,9 @@ let position2;
 
 let x = 0;
 let y = 0;
-let velocityX = 100; //should be same as initial position of player for smooth start
+let velocityX = 150; //should be same as initial position of player for smooth start
 let velocityY = 380;
-let velocityX2 = 900; //should be same as initial position of player for smooth start
+let velocityX2 = 1000; //should be same as initial position of player for smooth start
 let velocityY2 = 380;
 let gravity = 380;
 let canJump = true;
@@ -174,7 +174,7 @@ let spriteHeight = 115;
 let spriteWidth2 = 62;
 let spriteHeight2 = 115;
 let gameFrame = 0;
-const staggerFrames = 15;
+const staggerFrames = 5;
 const spriteAnimations = [];
 const animationStates = [
     {
@@ -283,11 +283,12 @@ drawCharacter();
 
 // const gravity = 0.5;
 function update() {
+    
     if (keysPressed['d']) {
         if (!keysPressed['s']) {
             playerState = "forward";
             velocityX += 30;
-            velocityX = Math.min(velocityX, BGcanvas.width-300);
+            velocityX = Math.min(velocityX, velocityX2 - CANVAS_WIDTH/2);
             canvas.style.left = velocityX + 'px';
         }
 
@@ -341,7 +342,7 @@ function update() {
         if (!keysPressed['k']) {
             playerState2 = "forward";
             velocityX2 -= 30;
-            velocityX2 = Math.max(velocityX2, 0);
+            velocityX2 = Math.max(velocityX2, velocityX + CANVAS_WIDTH/2);
             canvas2.style.left = velocityX2 + 'px';
         }
 
@@ -369,10 +370,11 @@ function update() {
     }
     if (keysPressed['k']) {
         playerState2 = "crouch";
-        keysPressed['k'] = false;
+        keysPressed['l'] = false;
         keysPressed['j'] = false;
 
     }
+    console.log(canvas2.style.left);
 
 }
 
