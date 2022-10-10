@@ -16,9 +16,9 @@ let position2;
 
 let x = 0;
 let y = 0;
-let velocityX = 100; //should be same as initial position of player for smooth start
+let velocityX = 150; //should be same as initial position of player for smooth start
 let velocityY = 380;
-let velocityX2 = 900; //should be same as initial position of player for smooth start
+let velocityX2 = 1000; //should be same as initial position of player for smooth start
 let velocityY2 = 380;
 let gravity = 380;
 let canJump = true;
@@ -71,41 +71,18 @@ startTimer();
 window.addEventListener('keydown', function (event) {
     switch (event.key.toLocaleLowerCase()) {
         case 'w':
-            // Event
-            
             keysPressed[event.key] = true;
-            // toplocation = 300;
-            // canvas.style.top = toplocation + "px";
-
-
             break;
         case 'a':
-            // Event
-            
             keysPressed[event.key] = true;
-            // if (leftlocation > 10)
-            //     leftlocation -= speed;
-            // canvas.style.left = leftlocation + "px";
-
-
             break;
         case 's':
-            // Event
-            
             keysPressed[event.key] = true;
-            // toplocation = 420;
-            // canvas.style.top = toplocation + "px";
             break;
         case 'd':
-            // Event
-            
             keysPressed[event.key] = true;
-            // if (leftlocation < 1200)
-            //     leftlocation += speed;
-            // canvas.style.left = leftlocation + "px";
             break;
         case 'z':
-            // Event
             playerState = "kick";
             break;
         case 'x':
@@ -114,18 +91,22 @@ window.addEventListener('keydown', function (event) {
             break;
         case 'j':
             // Event
+            playerState2 = "forward";
             keysPressed[event.key] = true;
             break;
         case 'l':
             // Event
+            playerState2 = "backward";
             keysPressed[event.key] = true;
             break;
         case 'i':
             // Event
+            playerState2 = "jump";
             keysPressed[event.key] = true;
             break;
         case 'k':
             // Event
+            playerState2 = "crouch";
             keysPressed[event.key] = true;
             break;
         case 'n':
@@ -304,11 +285,12 @@ drawCharacter();
 
 // const gravity = 0.5;
 function update() {
+    
     if (keysPressed['d']) {
         if (!keysPressed['s']) {
             playerState = "forward";
             velocityX += 30;
-            velocityX = Math.min(velocityX, BGcanvas.width-300);
+            velocityX = Math.min(velocityX, velocityX2 - CANVAS_WIDTH/2);
             canvas.style.left = velocityX + 'px';
         }
 
@@ -330,7 +312,7 @@ function update() {
                 if (velocityY < 320) {
                     clearInterval(jumpUp)
                     let jumpDown = setInterval(function () {
-                        if (velocityY >= 380) {
+                        if (velocityY >= 370) {
                             clearInterval(jumpDown);
                             canJump = true;
                         }
@@ -362,7 +344,7 @@ function update() {
         if (!keysPressed['k']) {
             playerState2 = "forward";
             velocityX2 -= 30;
-            velocityX2 = Math.max(velocityX2, 0);
+            velocityX2 = Math.max(velocityX2, velocityX + CANVAS_WIDTH/2);
             canvas2.style.left = velocityX2 + 'px';
         }
 
@@ -394,6 +376,7 @@ function update() {
         keysPressed['j'] = false;
 
     }
+    console.log(canvas2.style.left);
 
 }
 
