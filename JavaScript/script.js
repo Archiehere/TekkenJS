@@ -290,29 +290,11 @@ function update() {
             // velocityX += 30;
             // velocityX = Math.min(velocityX, 
               if(velocityX> velocityX2- CANVAS_WIDTH) {//|| velocityX< velocityX2- CANVAS_WIDTH/2);
-                if (canHit) {
-                    canHit = false;
-                    let damageState = setInterval(function () {
-                        
-                        // if () {
-                        //     clearInterval(jumpUp)
-                        //     let jumpDown = setInterval(function () {
-                        //         if (velocityY >= 370) {
-                        //             clearInterval(jumpDown);
-                        //             canJump = true;
-                        //         }
-                        //         velocityY += 10;
-                        //         canvas.style.top = velocityY + 'px';
-                        //     }, 30)
-                        // }
-                        // velocityY -= 20;
-                        // canvas.style.top = velocityY + 'px';
-                    }, 40)
-                }
-
-      
-                
-              
+              playerTwo.health -= 10;
+              playerState2="gethit";
+            playerTwo.healthBar.style.width = playerTwo.health + '%';
+            playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
+            
                 
             }
             canvas.style.left = velocityX + 'px';
