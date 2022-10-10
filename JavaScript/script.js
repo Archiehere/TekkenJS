@@ -22,7 +22,7 @@ let velocityX2 = 1000; //should be same as initial position of player for smooth
 let velocityY2 = 380;
 let gravity = 380;
 let canJump = true;
-let canJump2= true;
+let canJump2 = true;
 let maxSpeed = 2;
 let keysPressed = [];
 
@@ -83,11 +83,11 @@ window.addEventListener('keydown', function (event) {
             keysPressed[event.key] = true;
             break;
         case 'z':
-            keysPressed[event.key] = true;
+            playerState = "kick";
             break;
         case 'x':
             // Event
-            keysPressed[event.key] = true;
+            playerState = "punch"
             break;
         case 'j':
             // Event
@@ -111,22 +111,24 @@ window.addEventListener('keydown', function (event) {
             break;
         case 'n':
             // Event
-            playerState="gethit";
+            playerState = "gethit";
             playerOne.health -= 10;
             playerOne.healthBar.style.width = playerOne.health + '%';
-            if(playerOne.health<=0)
-            playerState="ko";
+            if (playerOne.health <= 0)
+                playerState = "ko";
             break;
         case 'm':
             // Event
-            
+            playerTwo.health -= 10;
+            playerTwo.healthBar.style.width = playerTwo.health + '%';
+            playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
             break;
     }
 })
 
 window.addEventListener('keyup', function (event) {
     playerState = "idle";
-    playerState2="idle";
+    playerState2 = "idle";
     keysPressed[event.key] = false;
     // if (toplocation != 380) {
     //     toplocation = 380;
@@ -155,12 +157,10 @@ const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
 const canvas2 = document.getElementById('canvas2');
 const ctx2 = canvas2.getContext('2d');
-const CANVAS_WIDTH = canvas.width =canvas2.width = 250;
-const CANVAS_HEIGHT = canvas.height =canvas2.height= 350;
+const CANVAS_WIDTH = canvas.width = canvas2.width = 250;
+const CANVAS_HEIGHT = canvas.height = canvas2.height = 350;
 const playerImage = new Image();
-const playerImage2 = new Image();
 playerImage.src = 'images/Ryu.gif';
-playerImage2.src = 'images/Ryu.gif';
 let spriteWidth = 62;
 let spriteHeight = 115;
 let spriteWidth2 = 62;
@@ -200,7 +200,7 @@ const animationStates = [
         framexposition: [64, 140, 219, 292, 368, 455],
         frameswidth: [70, 70, 70, 70, 70, 70],
         framesheight: [110, 110, 110, 110, 110, 110],
-        frameyposition: spriteHeight * 3 -8,
+        frameyposition: spriteHeight * 3 - 8,
     },
     {
         name: 'jump',
@@ -232,7 +232,7 @@ const animationStates = [
         framexposition: [8, 8, 88, 88, 425, 504],
         frameswidth: [73, 73, 73, 73, 73, 73],
         framesheight: [100, 100, 100, 100, 100, 100],
-        frameyposition: spriteHeight * 5 ,
+        frameyposition: spriteHeight * 5,
     },
     {
         name: 'gethit',
@@ -274,50 +274,12 @@ drawCharacter();
 
 
 function update() {
-    
-    if (keysPressed['z']) {
-        
-            playerState = "kick";
-            // velocityX += 30;
-            // velocityX = Math.min(velocityX, 
-              if(velocityX> velocityX2- CANVAS_WIDTH) {//|| velocityX< velocityX2- CANVAS_WIDTH/2);
-                if (canHit) {
-                    canHit = false;
-                    let damageState = setInterval(function () {
-                        
-                        // if () {
-                        //     clearInterval(jumpUp)
-                        //     let jumpDown = setInterval(function () {
-                        //         if (velocityY >= 370) {
-                        //             clearInterval(jumpDown);
-                        //             canJump = true;
-                        //         }
-                        //         velocityY += 10;
-                        //         canvas.style.top = velocityY + 'px';
-                        //     }, 30)
-                        // }
-                        // velocityY -= 20;
-                        // canvas.style.top = velocityY + 'px';
-                    }, 40)
-                }
-
-      
-                
-              
-                
-            }
-            canvas.style.left = velocityX + 'px';
-        
-
-    }
-    
-    
 
     if (keysPressed['d']) {
         if (!keysPressed['s']) {
             playerState = "forward";
             velocityX += 30;
-            velocityX = Math.min(velocityX, velocityX2 - CANVAS_WIDTH/2);
+            velocityX = Math.min(velocityX, velocityX2 - CANVAS_WIDTH / 2);
             canvas.style.left = velocityX + 'px';
         }
 
@@ -362,7 +324,7 @@ function update() {
         if (!keysPressed['k']) {
             playerState2 = "backward";
             velocityX2 += 30;
-            velocityX2 = Math.min(velocityX2, BGcanvas.width-300);
+            velocityX2 = Math.min(velocityX2, BGcanvas.width - 300);
             canvas2.style.left = velocityX2 + 'px';
         }
 
@@ -371,7 +333,7 @@ function update() {
         if (!keysPressed['k']) {
             playerState2 = "forward";
             velocityX2 -= 30;
-            velocityX2 = Math.max(velocityX2, velocityX + CANVAS_WIDTH/2);
+            velocityX2 = Math.max(velocityX2, velocityX + CANVAS_WIDTH / 2);
             canvas2.style.left = velocityX2 + 'px';
         }
 
@@ -403,24 +365,25 @@ function update() {
         keysPressed['j'] = false;
 
     }
-    // console.log(canvas2.style.left);
+    console.log(canvas2.style.left);
 
 }
 
 function animate() {
 
-    if(playerState=="gethit" || playerState=="ko"){
-    canvas.style.transform="scale(-1,1)"; }
+    if (playerState == "gethit" || playerState == "ko") {
+        canvas.style.transform = "scale(-1,1)";
+    }
     else
-    canvas.style.transform="scale(1,1)";
-    if(playerState=="ko" || playerOne.health<=0)
-    cancelAnimationFrame(animater);
+        canvas.style.transform = "scale(1,1)";
+    if (playerState == "ko" || playerOne.health <= 0)
+        cancelAnimationFrame(animater);
     prevposition = position;
     prevposition2 = position2;
-    position= Math.floor(gameFrame / staggerFrames) % spriteAnimations[playerState].loc.length;
-    position2= Math.floor(gameFrame / staggerFrames) % spriteAnimations[playerState2].loc.length;
+    position = Math.floor(gameFrame / staggerFrames) % spriteAnimations[playerState].loc.length;
+    position2 = Math.floor(gameFrame / staggerFrames) % spriteAnimations[playerState2].loc.length;
     // let framex = spacebeginning +(spriteWidth+spacebetween) * position;
-    if (prevposition != position || prevposition2!=position2) {
+    if (prevposition != position || prevposition2 != position2) {
         let framey = spriteAnimations[playerState].loc[position].y;
         let framex = spriteAnimations[playerState].loc[position].x;
         spriteWidth = spriteAnimations[playerState].loc[position].framewidth;
@@ -434,11 +397,11 @@ function animate() {
         background();
         // ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, spriteWidth*2.75, spriteHeight*2.75);
         ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
-        ctx2.drawImage(playerImage2, framex2, framey2, spriteWidth2, spriteHeight2, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
-        canvas2.style.transform="scale(-1,1)";
+        ctx2.drawImage(playerImage, framex2, framey2, spriteWidth2, spriteHeight2, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
+        canvas2.style.transform = "scale(-1,1)";
         update();
     }
     gameFrame++;
-    let animater=requestAnimationFrame(animate);
+    let animater = requestAnimationFrame(animate);
 };
 animate();
