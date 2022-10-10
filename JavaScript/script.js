@@ -464,9 +464,7 @@ function animate() {
         update();
     }
     gameFrame++;
-    setTimeout(() => {
-        let animater = requestAnimationFrame(animate);
-    },1000/140);
     
+    let animater = requestAnimationFrame(animate);
 };
 animate();
