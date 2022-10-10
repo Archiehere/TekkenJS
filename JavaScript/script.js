@@ -187,13 +187,15 @@ const ctx2 = canvas2.getContext('2d');
 const CANVAS_WIDTH = canvas.width =canvas2.width = 250;
 const CANVAS_HEIGHT = canvas.height =canvas2.height= 350;
 const playerImage = new Image();
+const playerImage2 = new Image();
 playerImage.src = 'images/Ryu.gif';
+playerImage2.src = 'images/Ryu.gif';
 let spriteWidth = 62;
 let spriteHeight = 115;
 let spriteWidth2 = 62;
 let spriteHeight2 = 115;
 let gameFrame = 0;
-const staggerFrames = 15;
+const staggerFrames = 5;
 const spriteAnimations = [];
 const animationStates = [
     {
@@ -388,7 +390,7 @@ function update() {
     }
     if (keysPressed['k']) {
         playerState2 = "crouch";
-        keysPressed['k'] = false;
+        keysPressed['l'] = false;
         keysPressed['j'] = false;
 
     }
@@ -422,7 +424,7 @@ function animate() {
         background();
         // ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, spriteWidth*2.75, spriteHeight*2.75);
         ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
-        ctx2.drawImage(playerImage, framex2, framey2, spriteWidth2, spriteHeight2, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
+        ctx2.drawImage(playerImage2, framex2, framey2, spriteWidth2, spriteHeight2, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
         canvas2.style.transform="scale(-1,1)";
         update();
     }
