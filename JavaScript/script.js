@@ -23,6 +23,10 @@ let velocityY2 = 380;
 let gravity = 380;
 let canJump = true;
 let canJump2 = true;
+let canKickOne = true;
+let canKickTwo = true;
+let canPunchOne = true;
+let canPunchTwo = true;
 let maxSpeed = 2;
 let keysPressed = [];
 
@@ -83,7 +87,7 @@ window.addEventListener('keydown', function (event) {
             keysPressed[event.key] = true;
             break;
         case 'z':
-            playerState = "kick";
+            keysPressed[event.key] = true;
             break;
         case 'x':
             // Event
@@ -107,6 +111,9 @@ window.addEventListener('keydown', function (event) {
         case 'k':
             // Event
             playerState2 = "crouch";
+            keysPressed[event.key] = true;
+            break;
+        case 'o':
             keysPressed[event.key] = true;
             break;
         case 'n':
@@ -274,26 +281,33 @@ drawCharacter();
 
 
 function update() {
-    
-    if (keysPressed['z']) {
-        
-            playerState = "kick";
-            // velocityX += 30;
-            // velocityX = Math.min(velocityX, 
-              if(velocityX> velocityX2- CANVAS_WIDTH) {//|| velocityX< velocityX2- CANVAS_WIDTH/2);
-              playerTwo.health -= 10;
-              playerState2="gethit";
-            playerTwo.healthBar.style.width = playerTwo.health + '%';
-            playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
-            
-                
-            }
-            canvas.style.left = velocityX + 'px';
-        
 
+    if (keysPressed['z']) {
+        playerState = "kick";
+        console.log(velocityX, velocityX2 - CANVAS_WIDTH);
+        if (velocityX > velocityX2 - CANVAS_WIDTH) {//|| velocityX< velocityX2- CANVAS_WIDTH/2);
+            console.log("Hit");
+            if (canKickOne) {
+                canKickOne = false;
+                let hitState = setInterval(function () {
+                    let tempHealth = playerTwo.health;
+                    playerTwo.health -= 10;
+                    playerState2 = "gethit";
+                    playerTwo.healthBar.style.width = playerTwo.health + '%';
+                    playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
+                    if(playerTwo.health <= tempHealth - 10 ) {
+                        keysPressed['z'] = false;
+                        clearInterval(hitState);
+                        setTimeout(function() {
+                            canKickOne = true;
+                        }, 1000);
+                    }
+                }, 100)
+            }
+        }
     }
-    
-    
+
+
 
     if (keysPressed['d']) {
         if (!keysPressed['s']) {
@@ -358,6 +372,31 @@ function update() {
         }
 
     }
+
+    if (keysPressed['o']) {
+        playerState2 = "kick";
+        // console.log(velocityX, velocityX2 - CANVAS_WIDTH);
+        if (velocityX2 < velocityX + CANVAS_WIDTH) {//|| velocityX< velocityX2- CANVAS_WIDTH/2);
+            console.log("Hit");
+            if (canKickTwo) {
+                canKickTwo = false;
+                let hitState = setInterval(function () {
+                    let tempHealth = playerOne.health;
+                    playerOne.health -= 10;
+                    playerState = "gethit";
+                    playerOne.healthBar.style.width = playerOne.health + '%';
+                    if(playerOne.health <= tempHealth - 10 ) {
+                        keysPressed['o'] = false;
+                        clearInterval(hitState);
+                        setTimeout(function() {
+                            canKickTwo = true;
+                        }, 1000);
+                    }
+                }, 100)
+            }
+        }
+    }
+
     if (keysPressed['i']) {
         playerState2 = "jump";
         if (canJump2) {
@@ -385,7 +424,7 @@ function update() {
         keysPressed['j'] = false;
 
     }
-    console.log(canvas2.style.left);
+    // console.log(canvas2.style.left);
 
 }
 
