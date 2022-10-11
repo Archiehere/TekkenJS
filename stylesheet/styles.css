@@ -95,9 +95,10 @@ body {
     z-index: 10;
     top: 4%;
     left: 8%;
-    font-family: 'Bidzina', sans-serif;
+    /* font-family: 'Bidzina', sans-serif; */
+    font-family: 'Press Start 2P', cursive;
     font-size: 38px;
-    color: red;
+    color:deeppink;
 }
 
 #player-two-name {
@@ -105,9 +106,11 @@ body {
     z-index: 10;
     top: 4%;
     right: 8%;
-    font-family: 'Bidzina', sans-serif;
+    /* font-family: 'Bidzina', sans-serif; */
+    font-family: 'Press Start 2P', cursive;
     font-size: 38px;
-    color: red;
+    /* color: red; */
+    color: deeppink;
 }
 
 #ready-win-container {
@@ -117,14 +120,17 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    
 }
 
 #ready-win-text {
     position: relative;
     z-index: 10;
-    font-family: 'Bidzina', sans-serif;
+    /* font-family: 'Bidzina', sans-serif; */
+    font-family: 'Press Start 2P', cursive;
     font-size: 90px; 
-    color: #585858;
+    /* color: #585858; */
+    color: orange;
     display: block;
 }
 
