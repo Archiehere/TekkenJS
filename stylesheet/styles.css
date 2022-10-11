@@ -24,8 +24,8 @@ body {
     position: absolute;
     z-index: 10;
     top: 10%;
-    left: 10%;
-    width: 30%;
+    left: 7%;
+    width: 33%;
     height: 3%;
     border: 3px solid grey;
     border-radius: 16px;
@@ -45,7 +45,7 @@ body {
     z-index: 10;
     top: 10%;
     left: 60%;
-    width: 30%;
+    width: 33%;
     height: 3%;
     border: 3px solid grey;
     border-radius: 16px;
@@ -70,7 +70,7 @@ body {
 }
 
 #timer {
-    font-size: large;
+    /* font-size: large; */
     color: #f7ddbe;
     font-family: 'Bidzina', sans-serif;
     font-size: 90px;
@@ -88,3 +88,43 @@ body {
 .controls, select, option {
     font-size: 25px;
 }
+
+/* Player Names */
+#player-one-name {
+    position: absolute;
+    z-index: 10;
+    top: 4%;
+    left: 8%;
+    font-family: 'Bidzina', sans-serif;
+    font-size: 38px;
+    color: red;
+}
+
+#player-two-name {
+    position: absolute;
+    z-index: 10;
+    top: 4%;
+    right: 8%;
+    font-family: 'Bidzina', sans-serif;
+    font-size: 38px;
+    color: red;
+}
+
+#ready-win-container {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#ready-win-text {
+    position: relative;
+    z-index: 10;
+    font-family: 'Bidzina', sans-serif;
+    font-size: 90px; 
+    color: #585858;
+    display: block;
+}
+
