@@ -216,8 +216,8 @@ const spriteAnimations2 = [];
 const animationStates2 =[
     {
     name: 'intro',
-    frames: 4,
-    framexposition: [75 , 158, 241 ,326 ,322,322 ,391 ,391,466 ,466 ,536, 536]  ,
+    frames: 6,
+    framexposition: [75 , 75, 158, 158, 241 ,241,326 ,322,322 ,391 ,391,466 ,466 ,536, 536]  ,
     frameswidth:    [69 , 69 , 69  ,69  ,69 ,69  ,69  ,69 ,69  ,69  , 69, 69 ] ,
     framesheight:   [110, 110, 110 ,110 ,110,110 ,110, 110,110, 110 ,110, 110] ,
     frameyposition: 240 ,
@@ -289,7 +289,7 @@ const animationStates2 =[
     },
     {
         name: 'ko',
-        frames: 3,
+        frames: 1,
         framexposition: [9 , 111 , 240 ,88 ,425 ,504]  ,
         frameswidth:    [90  , 120  , 110  ,73  ,73  ,73 ] ,
         framesheight:   [110 , 110 , 110 ,110 ,110 ,110] ,
@@ -372,7 +372,7 @@ const animationStates = [
     },
     {
         name: 'ko',
-        frames: 3,
+        frames: 1,
         framexposition: [25, 156, 293, 88, 425, 504],
         frameswidth: [130, 130, 130, 73, 73, 73],
         framesheight: [110, 110, 110, 110, 110, 110],
