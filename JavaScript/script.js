@@ -306,7 +306,7 @@ function update() {
                                 clearInterval(hitState);
                                 setTimeout(function () {
                                     canPunchOne = true;
-                                    canKickOne = false;
+                                    canKickOne = true;
                                 }, 800);
                             }
                         }, 100)
@@ -497,15 +497,8 @@ function animate() {
         update();
     }
     gameFrame++;
-<<<<<<< HEAD
     
     let animater = requestAnimationFrame(animate);
-=======
-    setTimeout(() => {
-        let animater = requestAnimationFrame(animate);
-    }, 1000 / 140);
-
->>>>>>> 72837d4c9631064618ca9e2159e0951b88eb0f55
 };
 
 function winner() {
