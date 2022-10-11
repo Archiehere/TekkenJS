@@ -94,10 +94,10 @@ window.addEventListener('keydown', function (event) {
         case 'd':
             keysPressed[event.key] = true;
             break;
-        case 'z':
+        case 'f':
             keysPressed[event.key] = true;
             break;
-        case 'x':
+        case 'r':
             keysPressed[event.key] = true;
             break;
         case 'j':
@@ -112,10 +112,10 @@ window.addEventListener('keydown', function (event) {
         case 'k':
             keysPressed[event.key] = true;
             break;
-        case 'o':
+        case 'h':
             keysPressed[event.key] = true;
             break;
-        case 'p':
+        case 'u':
             keysPressed[event.key] = true;
     }
 })
@@ -138,12 +138,12 @@ window.addEventListener('keyup', function (event) {
             keysPressed[event.key] = false;
             playerState = "idle";
             break;
-        case 'z':
+        case 'f':
             keysPressed[event.key] = false;
             playerState = "idle";
             playerState2 = "idle";
             break;
-        case 'x':
+        case 'r':
             keysPressed[event.key] = false;
             playerState = "idle";
             playerState2 = "idle";
@@ -164,12 +164,12 @@ window.addEventListener('keyup', function (event) {
             keysPressed[event.key] = false;
             playerState2 = "idle";
             break;
-        case 'o':
+        case 'h':
             keysPressed[event.key] = false;
             playerState2 = "idle";
             playerState = 'idle';
             break;
-        case 'p':
+        case 'u':
             keysPressed[event.key] = false;
             playerState = "idle";
             playerState2 = "idle";
@@ -417,7 +417,7 @@ drawCharacter();
 function update() {
 
     if (gameStartFlag) {
-        if (keysPressed['z']) {
+        if (keysPressed['f']) {
             playerState = "kick";
             
             if (velocityX > velocityX2 - CANVAS_WIDTH) {
@@ -434,7 +434,7 @@ function update() {
                         playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
                        
                         if (playerTwo.health <= tempHealth - 10) {
-                            keysPressed['z'] = false;
+                            keysPressed['f'] = false;
                             clearInterval(hitState);
                             setTimeout(function () {
                                 canKickOne = true;
@@ -447,7 +447,7 @@ function update() {
         }
 
 
-        if (keysPressed['x']) {
+        if (keysPressed['r']) {
             playerState = "punch";
             if (!keysPressed['k']) {
                 if (velocityX > velocityX2 - CANVAS_WIDTH) {
@@ -463,7 +463,7 @@ function update() {
                             playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
                             
                             if (playerTwo.health <= tempHealth - 10) {
-                                keysPressed['x'] = false;
+                                keysPressed['r'] = false;
                                 clearInterval(hitState);
                                 setTimeout(function () {
                                     canPunchOne = true;
@@ -540,7 +540,7 @@ function update() {
 
         }
 
-        if (keysPressed['o']) {
+        if (keysPressed['h']) {
             playerState2 = "kick";
             if (velocityX2 < velocityX + CANVAS_WIDTH) {
                 console.log("Hit");
@@ -554,7 +554,7 @@ function update() {
                         playerState = "gethit";
                         playerOne.healthBar.style.width = playerOne.health + '%';
                         if (playerOne.health <= tempHealth - 10) {
-                            keysPressed['o'] = false;
+                            keysPressed['h'] = false;
                             clearInterval(hitState);
                             setTimeout(function () {
                                 canKickTwo = true;
@@ -565,7 +565,7 @@ function update() {
                 }
             }
         }
-        if (keysPressed['p']) {
+        if (keysPressed['u']) {
             playerState2 = "punch";
             if (!keysPressed['s']) {
                 if (velocityX2 < velocityX + CANVAS_WIDTH) {
@@ -579,7 +579,7 @@ function update() {
                             playerState = "gethit";
                             playerOne.healthBar.style.width = playerOne.health + '%';
                             if (playerOne.health <= tempHealth - 10) {
-                                keysPressed['p'] = false;
+                                keysPressed['u'] = false;
                                 clearInterval(hitState);
                                 setTimeout(function () {
                                     canPunchTwo = true;
