@@ -29,6 +29,8 @@ let maxSpeed = 2;
 let keysPressed = [];
 let gameStartFlag = false; // for 3 sec in starting
 
+let readyWinText = document.getElementById('ready-win-text');
+
 
 
 // Temporary variable for player one health
@@ -46,15 +48,17 @@ let playerTwo = {
 let matchTimeInterval;
 function startTimer() {
     let timer = document.getElementById('timer');
-    let time = 3;
+    let time = 1;
     prevtimeInterval = setInterval(function () {
-        timer.innerText = time;
+        // timer.innerText = time;
+        readyWinText.style.display = 'block';
         time--;
-        if (time === -1) {
+        if (time === 0) {
             clearInterval(prevtimeInterval);
             time = 60;
-            timer.innerText = "Start";
+            // timer.innerText = "Start";
             matchTimeInterval = setInterval(function () {
+                readyWinText.style.display = 'none';
                 time = Math.max(time, 0);
                 timer.innerText = time;
                 gameStartFlag = true;
@@ -116,9 +120,60 @@ window.addEventListener('keydown', function (event) {
 })
 
 window.addEventListener('keyup', function (event) {
-    playerState = "idle";
-    playerState2 = "idle";
-    keysPressed[event.key] = false;
+    switch (event.key.toLowerCase()) {
+        case 'w':
+            keysPressed[event.key] = false;
+            playerState = "idle";
+            break;
+        case 'a':
+            keysPressed[event.key] = false;
+            playerState = "idle";
+            break;
+        case 's':
+            keysPressed[event.key] = false;
+            playerState = "idle";
+            break;
+        case 'd':
+            keysPressed[event.key] = false;
+            playerState = "idle";
+            break;
+        case 'z':
+            keysPressed[event.key] = false;
+            playerState = "idle";
+            playerState2 = "idle";
+            break;
+        case 'x':
+            keysPressed[event.key] = false;
+            playerState = "idle";
+            playerState2 = "idle";
+            break;
+        case 'j':
+            keysPressed[event.key] = false;
+            playerState2 = "idle";
+            break;
+        case 'l':
+            keysPressed[event.key] = false;
+            playerState2 = "idle";
+            break;
+        case 'i':
+            keysPressed[event.key] = false;
+            playerState2 = "idle";
+            break;
+        case 'k':
+            keysPressed[event.key] = false;
+            playerState2 = "idle";
+            break;
+        case 'o':
+            keysPressed[event.key] = false;
+            playerState2 = "idle";
+            playerState = 'idle';
+            break;
+        case 'p':
+            keysPressed[event.key] = false;
+            playerState = "idle";
+            playerState2 = "idle";
+            
+    }
 })
 
 let backgroundImage = new Image();
@@ -270,7 +325,8 @@ function update() {
                     canPunchOne = false;
                     let hitState = setInterval(function () {
                         let tempHealth = playerTwo.health;
-                        playerTwo.health -= 10;
+                        playerTwo.health -= 15;
+                        playerTwo.health = Math.max(0, playerTwo.health);
                         playerState2 = "gethit";
                         playerTwo.healthBar.style.width = playerTwo.health + '%';
                         playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
@@ -298,6 +354,7 @@ function update() {
                         let hitState = setInterval(function () {
                             let tempHealth = playerTwo.health;
                             playerTwo.health -= 10;
+                            playerTwo.health = Math.max(0, playerTwo.health);
                             playerState2 = "gethit";
                             playerTwo.healthBar.style.width = playerTwo.health + '%';
                             playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
@@ -388,7 +445,8 @@ function update() {
                     canPunchTwo = false;
                     let hitState = setInterval(function () {
                         let tempHealth = playerOne.health;
-                        playerOne.health -= 10;
+                        playerOne.health -= 15;
+                        playerOne.health = Math.max(0, playerOne.health);
                         playerState = "gethit";
                         playerOne.healthBar.style.width = playerOne.health + '%';
                         if (playerOne.health <= tempHealth - 10) {
@@ -413,6 +471,7 @@ function update() {
                         let hitState = setInterval(function () {
                             let tempHealth = playerOne.health;
                             playerOne.health -= 10;
+                            playerOne.health = Math.max(0, playerOne.health);
                             playerState = "gethit";
                             playerOne.healthBar.style.width = playerOne.health + '%';
                             if (playerOne.health <= tempHealth - 10) {
@@ -507,16 +566,21 @@ function winner() {
     if (playerOne.health > playerTwo.health) {
         playerState = 'idle';
         playerState2 = 'ko';
-        console.log("Player One Wins");
+        readyWinText.innerText = 'RYU WINS';
+        readyWinText.style.display = 'block';
+        // console.log("Player One Wins");
     } else if (playerOne.health < playerTwo.health) {
-        console.log("Player Two Wins");
+        // console.log("Player Two Wins");
         playerState2 = 'idle';
         playerState = 'ko';
+        readyWinText.innerText = 'CAMMIE WINS';
+        readyWinText.style.display = 'block';
     } else {
-        console.log("Its a draw");
+        // console.log("Its a draw");
         playerState2 = 'idle';
         playerState = 'idle';
-
+        readyWinText.innerText = 'DRAW';
+        readyWinText.style.display = 'block';
     }
 }
 
