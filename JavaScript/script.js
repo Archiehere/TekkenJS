@@ -1,10 +1,5 @@
-// Ratnesh commit
-//ARCHAS COMMIT 
-//commit 2
-
 const BGcanvas = document.getElementById('myCanvas');
 const BGctx = BGcanvas.getContext('2d');
-// BGctx.scale(-1,1);
 BGcanvas.width = window.innerWidth;
 BGcanvas.height = window.innerHeight;
 let prevposition = 0;
@@ -13,7 +8,7 @@ let position;
 let position2;
 
 let x = 0;
-const staggerFrames = 5 ;
+const staggerFrames = 5;
 let y = 0;
 let velocityX = 150; //should be same as initial position of player for smooth start
 let velocityY = 380;
@@ -32,8 +27,6 @@ let gameStartFlag = false; // for 3 sec in starting
 
 let readyWinText = document.getElementById('ready-win-text');
 
-
-
 // Temporary variable for player one health
 let playerOne = {
     health: 100,
@@ -51,13 +44,11 @@ function startTimer() {
     let timer = document.getElementById('timer');
     let time = 1;
     prevtimeInterval = setInterval(function () {
-        // timer.innerText = time;
         readyWinText.style.display = 'block';
         time--;
         if (time === 0) {
             clearInterval(prevtimeInterval);
             time = 60;
-            // timer.innerText = "Start";
             matchTimeInterval = setInterval(function () {
                 readyWinText.style.display = 'none';
                 time = Math.max(time, 0);
@@ -72,7 +63,6 @@ function startTimer() {
             }, 1000);
         }
     }, 1000);
-    console.log("Match ended");
 }
 startTimer();
 
@@ -213,89 +203,89 @@ let gameFrame = 0;
 const spriteAnimations = [];
 const spriteAnimations2 = [];
 
-const animationStates2 =[
+const animationStates2 = [
     {
-    name: 'intro',
-    frames: 6,
-    framexposition: [75 , 75, 158, 158, 241 ,241,326 ,322,322 ,391 ,391,466 ,466 ,536, 536]  ,
-    frameswidth:    [69 , 69 , 69  ,69  ,69 ,69  ,69  ,69 ,69  ,69  , 69, 69 ] ,
-    framesheight:   [110, 110, 110 ,110 ,110,110 ,110, 110,110, 110 ,110, 110] ,
-    frameyposition: 240 ,
+        name: 'intro',
+        frames: 6,
+        framexposition: [75, 75, 158, 158, 241, 241, 326, 322, 322, 391, 391, 466, 466, 536, 536],
+        frameswidth: [69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69],
+        framesheight: [110, 110, 110, 110, 110, 110, 110, 110, 110, 110, 110, 110],
+        frameyposition: 240,
     },
     {
-    name: 'idle',
-    frames: 6,
-    framexposition: [74 , 164 , 252 ,340 ,427 ,507]  ,
-    frameswidth:    [73  , 73  , 73  ,73  ,73  ,73 ] ,
-    framesheight:   [110 , 110 , 110 ,110 ,110 ,110] ,
-    frameyposition: 240+ spriteHeight*2,
+        name: 'idle',
+        frames: 6,
+        framexposition: [74, 164, 252, 340, 427, 507],
+        frameswidth: [73, 73, 73, 73, 73, 73],
+        framesheight: [110, 110, 110, 110, 110, 110],
+        frameyposition: 240 + spriteHeight * 2,
     },
     {
-    
+
         name: 'forward',
-        frames: 10  ,
-        framexposition: [72 , 150, 229 ,308 ,375,440 ,510 ,590,668 ,737 ,536, 536]  ,
-        frameswidth:    [78 , 78 , 78  ,73  ,68 ,73  ,73  ,73 ,73  ,73  , 73, 73 ] ,
-        framesheight:   [110, 110, 110 ,110 ,110,110 ,110, 110,110, 110 ,110, 110] ,
-        frameyposition: 240+ spriteHeight*3 ,
+        frames: 10,
+        framexposition: [72, 150, 229, 308, 375, 440, 510, 590, 668, 737, 536, 536],
+        frameswidth: [78, 78, 78, 73, 68, 73, 73, 73, 73, 73, 73, 73],
+        framesheight: [110, 110, 110, 110, 110, 110, 110, 110, 110, 110, 110, 110],
+        frameyposition: 240 + spriteHeight * 3,
     },
     {
         name: 'backward',
         frames: 5,
-        framexposition: [110  , 191 , 265 ,332 ,391 ,470]  ,
-        frameswidth:    [55  , 55  , 55  ,55  ,55  ,55 ] ,
-        framesheight:   [110 , 110 , 110 ,110 ,110 ,110] ,   
-        frameyposition: 240+ spriteHeight*4 + 10,
+        framexposition: [110, 191, 265, 332, 391, 470],
+        frameswidth: [55, 55, 55, 55, 55, 55],
+        framesheight: [110, 110, 110, 110, 110, 110],
+        frameyposition: 240 + spriteHeight * 4 + 10,
     },
     {
         name: 'jump',
         frames: 5,
-        framexposition: [165, 237 , 298 , 360 , 432 ,432 ,425 ,504]  ,
-        frameswidth:    [60  , 60  , 60  , 60  ,60  ,73  ,73 ] ,
-        framesheight:   [110 , 110 , 110 , 110 ,110 ,110 ,110] ,
-        frameyposition: 240+ spriteHeight*6 + 10,
+        framexposition: [165, 237, 298, 360, 432, 432, 425, 504],
+        frameswidth: [60, 60, 60, 60, 60, 73, 73],
+        framesheight: [110, 110, 110, 110, 110, 110, 110],
+        frameyposition: 240 + spriteHeight * 6 + 10,
     },
     {
         name: 'punch',
         frames: 4,
-        framexposition: [358  , 358, 450 , 450  , 450 ,402 ,517 ,504]  ,
-        frameswidth:    [80  , 80   , 140  ,140  ,80 ] ,
-        framesheight:   [110 , 110 , 110 , 110 ,110 ,110 ,110] ,
-        frameyposition: 240+ spriteHeight*12 + 7,
+        framexposition: [358, 358, 450, 450, 450, 402, 517, 504],
+        frameswidth: [80, 80, 140, 140, 80],
+        framesheight: [110, 110, 110, 110, 110, 110, 110],
+        frameyposition: 240 + spriteHeight * 12 + 7,
     },
     {
         name: 'kick',
         frames: 4,
-        framexposition: [45  , 45, 137  , 223 , 269 ,342 ,455 ,535]  ,
-        frameswidth:    [73  , 73  , 73  , 130  ,101  ,73  ,73 ] ,
-        framesheight:   [110 , 110 , 110 , 110 ,110 ,110 ,110] ,
-        frameyposition: 240+ spriteHeight*14 + 39,
+        framexposition: [45, 45, 137, 223, 269, 342, 455, 535],
+        frameswidth: [73, 73, 73, 130, 101, 73, 73],
+        framesheight: [110, 110, 110, 110, 110, 110, 110],
+        frameyposition: 240 + spriteHeight * 14 + 39,
     },
     {
-    name: 'crouch',
-    frames: 6,
-    framexposition: [199 , 199 , 279 ,279 ,279 ,279]  ,
-    frameswidth:    [70  , 70  , 70  ,70  ,70  ,70 ] ,
-    framesheight:   [110 , 110 , 110 ,110 ,110 ,110] ,
-    frameyposition: 240+ spriteHeight*5 + 10,
+        name: 'crouch',
+        frames: 6,
+        framexposition: [199, 199, 279, 279, 279, 279],
+        frameswidth: [70, 70, 70, 70, 70, 70],
+        framesheight: [110, 110, 110, 110, 110, 110],
+        frameyposition: 240 + spriteHeight * 5 + 10,
     },
     {
         name: 'gethit',
         frames: 4,
-        framexposition: [18 , 18 , 96 ,96 , 398 ,88 ,425 ,504]  ,
-        frameswidth:    [73  , 73  , 73  ,73  ,73  ,73 ] ,
-        framesheight:   [110 , 110 , 110 ,110 ,110 ,110] ,
-        frameyposition: 240+ spriteHeight*30 + 39,
+        framexposition: [18, 18, 96, 96, 398, 88, 425, 504],
+        frameswidth: [73, 73, 73, 73, 73, 73],
+        framesheight: [110, 110, 110, 110, 110, 110],
+        frameyposition: 240 + spriteHeight * 30 + 39,
     },
     {
         name: 'ko',
         frames: 1,
-        framexposition: [9 , 111 , 240 ,88 ,425 ,504]  ,
-        frameswidth:    [90  , 120  , 110  ,73  ,73  ,73 ] ,
-        framesheight:   [110 , 110 , 110 ,110 ,110 ,110] ,
-        frameyposition: 240+ spriteHeight*34 + 25,
+        framexposition: [9, 111, 240, 88, 425, 504],
+        frameswidth: [90, 120, 110, 73, 73, 73],
+        framesheight: [110, 110, 110, 110, 110, 110],
+        frameyposition: 240 + spriteHeight * 34 + 25,
     }
-    ];
+];
 const animationStates = [
     {
         name: 'intro',
@@ -403,25 +393,27 @@ function drawCharacter() {
         }
         spriteAnimations2[state.name] = frames;
     });
-    console.log(spriteAnimations);
-    console.log(spriteAnimations2);
     update();
 
 }
 drawCharacter();
 
-// console.log(spriteAnimations);
-// console.log(animationStates);
+
 
 
 function update() {
+    hitLocations = {
+        kickOnPlayerOne: { x: canvas.style.left , y: canvas.style.top },
+        punchOnPlayerOne: { x: canvas.style.left , y: canvas.style.top },
+        kickOnPlayerTwo: { x: canvas2.style.left , y: canvas2.style.top },
+        punchOnPlayerTwo: { x: canvas2.style.left , y: canvas2.style.top }
+    }
 
     if (gameStartFlag) {
         if (keysPressed['f']) {
             playerState = "kick";
-            
+
             if (velocityX > velocityX2 - CANVAS_WIDTH) {
-                console.log("Hit");
                 if (canKickOne) {
                     canKickOne = false;
                     canPunchOne = false;
@@ -432,7 +424,6 @@ function update() {
                         playerState2 = "gethit";
                         playerTwo.healthBar.style.width = playerTwo.health + '%';
                         playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
-                       
                         if (playerTwo.health <= tempHealth - 10) {
                             keysPressed['f'] = false;
                             clearInterval(hitState);
@@ -461,7 +452,6 @@ function update() {
                             playerState2 = "gethit";
                             playerTwo.healthBar.style.width = playerTwo.health + '%';
                             playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
-                            
                             if (playerTwo.health <= tempHealth - 10) {
                                 keysPressed['r'] = false;
                                 clearInterval(hitState);
@@ -543,7 +533,6 @@ function update() {
         if (keysPressed['h']) {
             playerState2 = "kick";
             if (velocityX2 < velocityX + CANVAS_WIDTH) {
-                console.log("Hit");
                 if (canKickTwo) {
                     canKickTwo = false;
                     canPunchTwo = false;
@@ -553,6 +542,7 @@ function update() {
                         playerOne.health = Math.max(0, playerOne.health);
                         playerState = "gethit";
                         playerOne.healthBar.style.width = playerOne.health + '%';
+                        // hitElement.style.display = 'none';
                         if (playerOne.health <= tempHealth - 10) {
                             keysPressed['h'] = false;
                             clearInterval(hitState);
@@ -582,6 +572,7 @@ function update() {
                                 keysPressed['u'] = false;
                                 clearInterval(hitState);
                                 setTimeout(function () {
+
                                     canPunchTwo = true;
                                     canKickTwo = true;
                                 }, 800);
@@ -626,8 +617,8 @@ function update() {
 
 }
 
-function animate() {
 
+function animate() {
     if (playerState == "gethit" || playerState == "ko") {
         canvas.style.transform = "scale(-1,1)";
     }
@@ -637,7 +628,6 @@ function animate() {
     prevposition2 = position2;
     position = Math.floor(gameFrame / staggerFrames) % spriteAnimations[playerState].loc.length;
     position2 = Math.floor(gameFrame / staggerFrames) % spriteAnimations2[playerState2].loc.length;
-    // let framex = spacebeginning +(spriteWidth+spacebetween) * position;
     if (prevposition != position || prevposition2 != position2) {
         let framey = spriteAnimations[playerState].loc[position].y;
         let framex = spriteAnimations[playerState].loc[position].x;
@@ -654,13 +644,11 @@ function animate() {
         ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
         ctx2.drawImage(playerImage2, framex2, framey2, spriteWidth2, spriteHeight2, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
         canvas2.style.transform = "scale(-1,1)";
-        // if (playerState2 == "gethit" || playerState2 == "ko")
-        //     canvas2.style.transform = "scale(1,1)";
-
         update();
     }
+
     gameFrame++;
-    
+
     let animater = requestAnimationFrame(animate);
 };
 
@@ -672,15 +660,12 @@ function winner() {
         playerState2 = 'ko';
         readyWinText.innerText = 'RYU WINS';
         readyWinText.style.display = 'block';
-        // console.log("Player One Wins");
     } else if (playerOne.health < playerTwo.health) {
-        // console.log("Player Two Wins");
         playerState2 = 'idle';
         playerState = 'ko';
         readyWinText.innerText = 'CAMMY WINS';
         readyWinText.style.display = 'block';
     } else {
-        // console.log("Its a draw");
         playerState2 = 'idle';
         playerState = 'idle';
         readyWinText.innerText = 'DRAW';

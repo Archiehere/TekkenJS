@@ -37,7 +37,7 @@ body {
     position: relative;
     width: 100%;
     height: 100%;
-    background-color: red;
+    background-color: #922724;
 }
 
 #health-container-two {
@@ -57,7 +57,7 @@ body {
     position: relative;
     width: 100%;
     height: 100%;
-    background-color: red;
+    background-color: #922724;
     margin-left: 0%;
 }
 
@@ -72,7 +72,7 @@ body {
 #timer {
     /* font-size: large; */
     color: #f7ddbe;
-    font-family: 'Bidzina', sans-serif;
+    font-family: 'Press Start 2P', sans-serif;
     font-size: 90px;
 }
 
@@ -134,3 +134,11 @@ body {
     display: block;
 }
 
+#hit-element {
+    top: 0;
+    left: 0;
+    width: 5%;
+    height: 5%;
+    position: absolute;
+    display: none;
+}
