@@ -6,9 +6,10 @@ let prevposition = 0;
 let prevposition2 = 0;
 let position;
 let position2;
+let keyamt1=0,keyamt2=0;
 
 let x = 0;
-const staggerFrames = 5;
+const staggerFrames = 10;
 let y = 0;
 let velocityX = 150; //should be same as initial position of player for smooth start
 let velocityY = 380;
@@ -71,6 +72,8 @@ startTimer();
 
 // Event Listeners
 window.addEventListener('keydown', function (event) {
+    
+    
     switch (event.key.toLocaleLowerCase()) {
         case 'w':
             keysPressed[event.key] = true;
@@ -82,12 +85,6 @@ window.addEventListener('keydown', function (event) {
             keysPressed[event.key] = true;
             break;
         case 'd':
-            keysPressed[event.key] = true;
-            break;
-        case 'f':
-            keysPressed[event.key] = true;
-            break;
-        case 'r':
             keysPressed[event.key] = true;
             break;
         case 'j':
@@ -103,14 +100,30 @@ window.addEventListener('keydown', function (event) {
             keysPressed[event.key] = true;
             break;
         case 'h':
+            keyamt2++;
+            if(keyamt2>1)
             keysPressed[event.key] = true;
             break;
+        case 'f':
+            keyamt1++;
+            if(keyamt1>1)
+                keysPressed[event.key] = true;
+                break;
+        case 'r':
+            keyamt1++;
+            if(keyamt1>1)
+                keysPressed[event.key] = true;
+                break;
         case 'u':
+            keyamt2++;
+            if(keyamt2>1)
             keysPressed[event.key] = true;
+            break;
     }
 })
 
 window.addEventListener('keyup', function (event) {
+    
     switch (event.key.toLowerCase()) {
         case 'w':
             keysPressed[event.key] = false;
@@ -129,16 +142,16 @@ window.addEventListener('keyup', function (event) {
             playerState = "idle";
             break;
         case 'f':
+            keyamt1=0;
             keysPressed[event.key] = false;
-            kickAnimationPlay = true;
-            // playerState = "idle";
-            // playerState2 = "idle";
+            playerState = "idle";
+            playerState2 = "idle";
             break;
         case 'r':
+            keyamt1=0;
             keysPressed[event.key] = false;
-            // punchAnimationPlay = true;
-            // playerState = "idle";
-            // playerState2 = "idle";
+            playerState = "idle";
+            playerState2 = "idle";
             break;
         case 'j':
             keysPressed[event.key] = false;
@@ -157,11 +170,13 @@ window.addEventListener('keyup', function (event) {
             playerState2 = "idle";
             break;
         case 'h':
+            keyamt2=0;
             keysPressed[event.key] = false;
             playerState2 = "idle";
             playerState = 'idle';
             break;
         case 'u':
+            keyamt2=0;
             keysPressed[event.key] = false;
             playerState = "idle";
             playerState2 = "idle";
@@ -400,39 +415,23 @@ function drawCharacter() {
 }
 drawCharacter();
 
-function changeState(state) {
-    let changeStateInterval = setInterval(function() {
-            playerState = state;
-            let changeStateTimeout = setTimeout(function() {
-                kickAnimationPlay = true;
-                playerState = 'idle';
-                clearInterval(changeStateInterval);
-                clearTimeout(changeStateTimeout);
-                console.log("Stopped");
-            }, 800);        
-    }, 500)
-}
 
 
 
-let kickAnimationPlay = true; 
 function update() {
-    // hitLocations = {
-    //     kickOnPlayerOne: { x: canvas.style.left , y: canvas.style.top },
-    //     punchOnPlayerOne: { x: canvas.style.left , y: canvas.style.top },
-    //     kickOnPlayerTwo: { x: canvas2.style.left , y: canvas2.style.top },
-    //     punchOnPlayerTwo: { x: canvas2.style.left , y: canvas2.style.top }
-    // }
+    hitLocations = {
+        kickOnPlayerOne: { x: canvas.style.left , y: canvas.style.top },
+        punchOnPlayerOne: { x: canvas.style.left , y: canvas.style.top },
+        kickOnPlayerTwo: { x: canvas2.style.left , y: canvas2.style.top },
+        punchOnPlayerTwo: { x: canvas2.style.left , y: canvas2.style.top }
+    }
 
     if (gameStartFlag) {
-
-        if(kickAnimationPlay){
         if (keysPressed['f']) {
-            // playerState = "kick";
+            playerState = "kick";
+
             if (velocityX > velocityX2 - CANVAS_WIDTH) {
-                // playerState = 'kick';
                 if (canKickOne) {
-                    changeState('kick');
                     canKickOne = false;
                     canPunchOne = false;
                     let hitState = setInterval(function () {
@@ -446,17 +445,14 @@ function update() {
                             keysPressed['f'] = false;
                             clearInterval(hitState);
                             setTimeout(function () {
-                                // playerState = 'idle';
                                 canKickOne = true;
                                 canPunchOne = true;
                             }, 1000);
                         }
                     }, 100)
                 }
-            } else {
-                changeState('kick');
             }
-        }}
+        }
 
 
         if (keysPressed['r']) {
@@ -464,7 +460,6 @@ function update() {
             if (!keysPressed['k']) {
                 if (velocityX > velocityX2 - CANVAS_WIDTH) {
                     if (canPunchOne) {
-                        changeState('punch', playerState);
                         canPunchOne = false;
                         canKickOne = false;
                         let hitState = setInterval(function () {
@@ -478,7 +473,6 @@ function update() {
                                 keysPressed['r'] = false;
                                 clearInterval(hitState);
                                 setTimeout(function () {
-                                    playerState = 'idle';
                                     canPunchOne = true;
                                     canKickOne = true;
                                 }, 800);
