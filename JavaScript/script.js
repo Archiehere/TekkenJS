@@ -130,13 +130,15 @@ window.addEventListener('keyup', function (event) {
             break;
         case 'f':
             keysPressed[event.key] = false;
-            playerState = "idle";
-            playerState2 = "idle";
+            kickAnimationPlay = true;
+            // playerState = "idle";
+            // playerState2 = "idle";
             break;
         case 'r':
             keysPressed[event.key] = false;
-            playerState = "idle";
-            playerState2 = "idle";
+            // punchAnimationPlay = true;
+            // playerState = "idle";
+            // playerState2 = "idle";
             break;
         case 'j':
             keysPressed[event.key] = false;
@@ -398,23 +400,39 @@ function drawCharacter() {
 }
 drawCharacter();
 
+function changeState(state) {
+    let changeStateInterval = setInterval(function() {
+            playerState = state;
+            let changeStateTimeout = setTimeout(function() {
+                kickAnimationPlay = true;
+                playerState = 'idle';
+                clearInterval(changeStateInterval);
+                clearTimeout(changeStateTimeout);
+                console.log("Stopped");
+            }, 800);        
+    }, 500)
+}
 
 
 
+let kickAnimationPlay = true; 
 function update() {
-    hitLocations = {
-        kickOnPlayerOne: { x: canvas.style.left , y: canvas.style.top },
-        punchOnPlayerOne: { x: canvas.style.left , y: canvas.style.top },
-        kickOnPlayerTwo: { x: canvas2.style.left , y: canvas2.style.top },
-        punchOnPlayerTwo: { x: canvas2.style.left , y: canvas2.style.top }
-    }
+    // hitLocations = {
+    //     kickOnPlayerOne: { x: canvas.style.left , y: canvas.style.top },
+    //     punchOnPlayerOne: { x: canvas.style.left , y: canvas.style.top },
+    //     kickOnPlayerTwo: { x: canvas2.style.left , y: canvas2.style.top },
+    //     punchOnPlayerTwo: { x: canvas2.style.left , y: canvas2.style.top }
+    // }
 
     if (gameStartFlag) {
-        if (keysPressed['f']) {
-            playerState = "kick";
 
+        if(kickAnimationPlay){
+        if (keysPressed['f']) {
+            // playerState = "kick";
             if (velocityX > velocityX2 - CANVAS_WIDTH) {
+                // playerState = 'kick';
                 if (canKickOne) {
+                    changeState('kick');
                     canKickOne = false;
                     canPunchOne = false;
                     let hitState = setInterval(function () {
@@ -428,14 +446,17 @@ function update() {
                             keysPressed['f'] = false;
                             clearInterval(hitState);
                             setTimeout(function () {
+                                // playerState = 'idle';
                                 canKickOne = true;
                                 canPunchOne = true;
                             }, 1000);
                         }
                     }, 100)
                 }
+            } else {
+                changeState('kick');
             }
-        }
+        }}
 
 
         if (keysPressed['r']) {
@@ -443,6 +464,7 @@ function update() {
             if (!keysPressed['k']) {
                 if (velocityX > velocityX2 - CANVAS_WIDTH) {
                     if (canPunchOne) {
+                        changeState('punch', playerState);
                         canPunchOne = false;
                         canKickOne = false;
                         let hitState = setInterval(function () {
@@ -456,6 +478,7 @@ function update() {
                                 keysPressed['r'] = false;
                                 clearInterval(hitState);
                                 setTimeout(function () {
+                                    playerState = 'idle';
                                     canPunchOne = true;
                                     canKickOne = true;
                                 }, 800);
