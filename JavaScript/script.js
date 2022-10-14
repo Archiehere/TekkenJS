@@ -689,7 +689,7 @@ function animate() {
         spriteHeight2 = spriteAnimations2[playerState2].loc[position2].frameheight;
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         ctx2.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-        background(backgroundImage2, true);
+        background(backgroundImage3, true);
         // ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, spriteWidth*2.75, spriteHeight*2.75);
         ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
         ctx2.drawImage(playerImage2, framex2, framey2, spriteWidth2, spriteHeight2, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
