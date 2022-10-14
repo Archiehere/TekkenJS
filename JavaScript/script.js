@@ -671,7 +671,7 @@ function animate() {
         ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
         ctx2.drawImage(playerImage2, framex2, framey2, spriteWidth2, spriteHeight2, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
         canvas2.style.transform = "scale(-1,1)";
-        
+
         update();
     }
 
@@ -719,18 +719,17 @@ function propertiesDisplayNormal() {
     playerOneName.style.display = 'block';
     playerTwoName.style.display = 'block';
     readyWinContainer.style.display = 'flex';
-    // startPage.style.display = 'none';
+    startPage.style.display = 'none';
     animate();
-    startTimer();    
+    startTimer();
 }
 
-propertiesDisplayNormal();
+// propertiesDisplayNormal();
 
-// window.addEventListener('keydown', (e) => {
-//     if(e.key == 'p') {
-//         propertiesDisplayNormal();
-//     }
-// })
+startPage.addEventListener('click', (e) => {
+
+    propertiesDisplayNormal();
+})
 
 
 // animate();
