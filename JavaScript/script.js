@@ -6,10 +6,10 @@ let prevposition = 0;
 let prevposition2 = 0;
 let position;
 let position2;
-let keyamt1=0,keyamt2=0;
+let keyamt1 = 0, keyamt2 = 0;
 
 let x = 0;
-const staggerFrames = 10;
+const staggerFrames = 5;
 let y = 0;
 let velocityX = 150; //should be same as initial position of player for smooth start
 let velocityY = 380;
@@ -27,6 +27,7 @@ let keysPressed = [];
 let gameStartFlag = false; // for 3 sec in starting
 
 let readyWinText = document.getElementById('ready-win-text');
+let startPage = document.getElementById('start-page');
 
 // Temporary variable for player one health
 let playerOne = {
@@ -65,15 +66,14 @@ function startTimer() {
         }
     }, 1000);
 }
-startTimer();
 
 
 
 
 // Event Listeners
 window.addEventListener('keydown', function (event) {
-    
-    
+
+
     switch (event.key.toLocaleLowerCase()) {
         case 'w':
             keysPressed[event.key] = true;
@@ -101,29 +101,29 @@ window.addEventListener('keydown', function (event) {
             break;
         case 'h':
             keyamt2++;
-            if(keyamt2>1)
-            keysPressed[event.key] = true;
+            if (keyamt2 > 1)
+                keysPressed[event.key] = true;
             break;
         case 'f':
             keyamt1++;
-            if(keyamt1>1)
+            if (keyamt1 > 1)
                 keysPressed[event.key] = true;
-                break;
+            break;
         case 'r':
             keyamt1++;
-            if(keyamt1>1)
+            if (keyamt1 > 1)
                 keysPressed[event.key] = true;
-                break;
+            break;
         case 'u':
             keyamt2++;
-            if(keyamt2>1)
-            keysPressed[event.key] = true;
+            if (keyamt2 > 1)
+                keysPressed[event.key] = true;
             break;
     }
 })
 
 window.addEventListener('keyup', function (event) {
-    
+
     switch (event.key.toLowerCase()) {
         case 'w':
             keysPressed[event.key] = false;
@@ -142,13 +142,13 @@ window.addEventListener('keyup', function (event) {
             playerState = "idle";
             break;
         case 'f':
-            keyamt1=0;
+            keyamt1 = 0;
             keysPressed[event.key] = false;
             playerState = "idle";
             playerState2 = "idle";
             break;
         case 'r':
-            keyamt1=0;
+            keyamt1 = 0;
             keysPressed[event.key] = false;
             playerState = "idle";
             playerState2 = "idle";
@@ -170,19 +170,21 @@ window.addEventListener('keyup', function (event) {
             playerState2 = "idle";
             break;
         case 'h':
-            keyamt2=0;
+            keyamt2 = 0;
             keysPressed[event.key] = false;
             playerState2 = "idle";
             playerState = 'idle';
             break;
         case 'u':
-            keyamt2=0;
+            keyamt2 = 0;
             keysPressed[event.key] = false;
             playerState = "idle";
             playerState2 = "idle";
             break;
     }
-})
+});
+
+
 
 let backgroundImage = new Image();
 backgroundImage.src = "images/background/backgroundSprite.png"
@@ -190,13 +192,21 @@ backgroundImage.src = "images/background/backgroundSprite.png"
 let backgroundImageOver = new Image();
 backgroundImageOver.src = "images/background/backgroundSprite-removebg.png"
 
-function background() {
-    // BGctx.scale(-1,1);
-    // BGctx.rotate(45 * Math.PI / 180);
-    BGctx.drawImage(backgroundImage, 10, 8, 419, 224, 0, 0, BGcanvas.width, BGcanvas.height);
-    BGctx.drawImage(backgroundImage, 205, 255, 672, 33, 0, 570, BGcanvas.width, BGcanvas.height - 570);
-    BGctx.drawImage(backgroundImageOver, 18, 340, 672, 200, 0, 0, BGcanvas.width, 580);
+let backgroundImage2 = new Image();
+backgroundImage2.src = "images/background/background2.jpeg";
 
+let backgroundImage3 = new Image();
+backgroundImage3.src = "images/background/background3.jpeg";
+
+
+function background(bgImage, isASprite) {
+    if (isASprite) {
+        BGctx.drawImage(backgroundImage, 10, 8, 419, 224, 0, 0, BGcanvas.width, BGcanvas.height);
+        BGctx.drawImage(backgroundImage, 205, 255, 672, 33, 0, 570, BGcanvas.width, BGcanvas.height - 570);
+        BGctx.drawImage(backgroundImageOver, 18, 340, 672, 200, 0, 0, BGcanvas.width, 580);
+    } else {
+        BGctx.drawImage(bgImage, 0, 0, BGcanvas.width, BGcanvas.height + 40);
+    }
 }
 
 let playerState = 'intro';
@@ -420,10 +430,10 @@ drawCharacter();
 
 function update() {
     hitLocations = {
-        kickOnPlayerOne: { x: canvas.style.left , y: canvas.style.top },
-        punchOnPlayerOne: { x: canvas.style.left , y: canvas.style.top },
-        kickOnPlayerTwo: { x: canvas2.style.left , y: canvas2.style.top },
-        punchOnPlayerTwo: { x: canvas2.style.left , y: canvas2.style.top }
+        kickOnPlayerOne: { x: canvas.style.left, y: canvas.style.top },
+        punchOnPlayerOne: { x: canvas.style.left, y: canvas.style.top },
+        kickOnPlayerTwo: { x: canvas2.style.left, y: canvas2.style.top },
+        punchOnPlayerTwo: { x: canvas2.style.left, y: canvas2.style.top }
     }
 
     if (gameStartFlag) {
@@ -656,11 +666,12 @@ function animate() {
         spriteHeight2 = spriteAnimations2[playerState2].loc[position2].frameheight;
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         ctx2.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-        background();
+        background(backgroundImage2, true);
         // ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, spriteWidth*2.75, spriteHeight*2.75);
         ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
         ctx2.drawImage(playerImage2, framex2, framey2, spriteWidth2, spriteHeight2, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
         canvas2.style.transform = "scale(-1,1)";
+        
         update();
     }
 
@@ -690,4 +701,36 @@ function winner() {
     }
 }
 
-animate();
+function mapAndCharSelection() {
+    // startPage.style.backgroundImage = 'images/background/startPageBackground.jpg';
+}
+
+function propertiesDisplayNormal() {
+    let healthContainerOne = document.getElementById('health-container-one');
+    let healthContainerTwo = document.getElementById('health-container-two');
+    let timerContainer = document.getElementById('timer-container');
+    let playerOneName = document.getElementById('player-one-name');
+    let playerTwoName = document.getElementById('player-two-name');
+    let readyWinContainer = document.getElementById('ready-win-container');
+
+    healthContainerOne.style.display = 'block';
+    healthContainerTwo.style.display = 'block';
+    timerContainer.style.display = 'block';
+    playerOneName.style.display = 'block';
+    playerTwoName.style.display = 'block';
+    readyWinContainer.style.display = 'flex';
+    // startPage.style.display = 'none';
+    animate();
+    startTimer();    
+}
+
+propertiesDisplayNormal();
+
+// window.addEventListener('keydown', (e) => {
+//     if(e.key == 'p') {
+//         propertiesDisplayNormal();
+//     }
+// })
+
+
+// animate();
