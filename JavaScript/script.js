@@ -6,10 +6,10 @@ let prevposition = 0;
 let prevposition2 = 0;
 let position;
 let position2;
-// let keyamt1 = 0, keyamt2 = 0;
+let keyamt1 = 0, keyamt2 = 0;
 
 let x = 0;
-const staggerFrames = 10;
+const staggerFrames = 5;
 let y = 0;
 let velocityX = 150; //should be same as initial position of player for smooth start
 let velocityY = 380;
@@ -79,6 +79,7 @@ function startTimer() {
 
 
 // Event Listeners
+
 window.addEventListener('keydown', function (event) {
     if (isPlay) {
         switch (event.key.toLocaleLowerCase()) {
@@ -128,8 +129,7 @@ window.addEventListener('keydown', function (event) {
                 break;
         }
     }
-    if(event.key.toLocaleLowerCase() == 'enter') {
-        console.log("CLICKED")
+    if(event.key.toLocaleLowerCase() == 'enter' && gameStartFlag == true) {
         if(isPlay) {
             isPlay = false;
             pauseText.style.display = 'block';
@@ -448,17 +448,16 @@ drawCharacter();
 
 
 function update() {
-    hitLocations = {
-        kickOnPlayerOne: { x: canvas.style.left, y: canvas.style.top },
-        punchOnPlayerOne: { x: canvas.style.left, y: canvas.style.top },
-        kickOnPlayerTwo: { x: canvas2.style.left, y: canvas2.style.top },
-        punchOnPlayerTwo: { x: canvas2.style.left, y: canvas2.style.top }
-    }
+    // hitLocations = {
+    //     kickOnPlayerOne: { x: canvas.style.left, y: canvas.style.top },
+    //     punchOnPlayerOne: { x: canvas.style.left, y: canvas.style.top },
+    //     kickOnPlayerTwo: { x: canvas2.style.left, y: canvas2.style.top },
+    //     punchOnPlayerTwo: { x: canvas2.style.left, y: canvas2.style.top }
+    // }
 
     if (gameStartFlag) {
         if (keysPressed['f']) {
             playerState = "kick";
-
             if (velocityX > velocityX2 - CANVAS_WIDTH) {
                 if (canKickOne) {
                     canKickOne = false;
@@ -471,8 +470,8 @@ function update() {
                         playerState2 = "gethit";
                         playerTwo.healthBar.style.width = playerTwo.health + '%';
                         playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
-                        if (playerTwo.health <= tempHealth - 10) {
-                            keysPressed['f'] = false;
+                        if (playerTwo.health <= tempHealth - 15) {
+                            // keysPressed['f'] = false;
                             clearInterval(hitState);
                             setTimeout(function () {
                                 canKickOne = true;
@@ -501,7 +500,7 @@ function update() {
                             playerTwo.healthBar.style.width = playerTwo.health + '%';
                             playerTwo.healthBar.style.marginLeft = 100 - playerTwo.health + '%';
                             if (playerTwo.health <= tempHealth - 10) {
-                                keysPressed['r'] = false;
+                                // keysPressed['r'] = false;
                                 clearInterval(hitState);
                                 setTimeout(function () {
                                     canPunchOne = true;
@@ -592,8 +591,8 @@ function update() {
                         playerState = "gethit";
                         playerOne.healthBar.style.width = playerOne.health + '%';
                         // hitElement.style.display = 'none';
-                        if (playerOne.health <= tempHealth - 10) {
-                            keysPressed['h'] = false;
+                        if (playerOne.health <= tempHealth - 15) {
+                            // keysPressed['h'] = false;
                             clearInterval(hitState);
                             setTimeout(function () {
                                 canKickTwo = true;
@@ -619,7 +618,7 @@ function update() {
                             playerState = "gethit";
                             playerOne.healthBar.style.width = playerOne.health + '%';
                             if (playerOne.health <= tempHealth - 10) {
-                                keysPressed['u'] = false;
+                                // keysPressed['u'] = false;
                                 clearInterval(hitState);
                                 setTimeout(function () {
 
