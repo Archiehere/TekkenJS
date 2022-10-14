@@ -9,7 +9,7 @@ let position2;
 let keyamt1 = 0, keyamt2 = 0;
 
 let x = 0;
-const staggerFrames = 10;
+const staggerFrames = 5;
 let y = 0;
 let velocityX = 150; //should be same as initial position of player for smooth start
 let velocityY = 380;
