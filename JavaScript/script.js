@@ -6,7 +6,7 @@ let prevposition = 0;
 let prevposition2 = 0;
 let position;
 let position2;
-// let keyamt1 = 0, keyamt2 = 0;
+let keyamt1 = 0, keyamt2 = 0;
 
 let x = 0;
 const staggerFrames = 10;
