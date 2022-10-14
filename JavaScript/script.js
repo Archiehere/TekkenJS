@@ -27,6 +27,7 @@ let keysPressed = [];
 let gameStartFlag = false; // for 3 sec in starting
 
 let readyWinText = document.getElementById('ready-win-text');
+let pauseText = document.getElementById('pause-text');
 let startPage = document.getElementById('start-page');
 
 // Temporary variable for player one health
@@ -40,23 +41,30 @@ let playerTwo = {
     healthBar: document.getElementById('health-two')
 }
 
+let isPlay = true;
+
+
 // Timer
 let matchTimeInterval;
 function startTimer() {
     let timer = document.getElementById('timer');
     let time = 1;
     prevtimeInterval = setInterval(function () {
+        // pauseText.style.display = 'none';
         readyWinText.style.display = 'block';
         time--;
         if (time === 0) {
             clearInterval(prevtimeInterval);
             time = 60;
             matchTimeInterval = setInterval(function () {
+                // pauseText.style.display = 'none';
                 readyWinText.style.display = 'none';
                 time = Math.max(time, 0);
                 timer.innerText = time;
                 gameStartFlag = true;
-                time--;
+                if (isPlay) {
+                    time--;
+                }
                 if (time === -1) {
                     gameStartFlag = false;
                     winner();
@@ -72,53 +80,64 @@ function startTimer() {
 
 // Event Listeners
 window.addEventListener('keydown', function (event) {
-
-
-    switch (event.key.toLocaleLowerCase()) {
-        case 'w':
-            keysPressed[event.key] = true;
-            break;
-        case 'a':
-            keysPressed[event.key] = true;
-            break;
-        case 's':
-            keysPressed[event.key] = true;
-            break;
-        case 'd':
-            keysPressed[event.key] = true;
-            break;
-        case 'j':
-            keysPressed[event.key] = true;
-            break;
-        case 'l':
-            keysPressed[event.key] = true;
-            break;
-        case 'i':
-            keysPressed[event.key] = true;
-            break;
-        case 'k':
-            keysPressed[event.key] = true;
-            break;
-        case 'h':
-            keyamt2++;
-            if (keyamt2 > 1)
+    if (isPlay) {
+        switch (event.key.toLocaleLowerCase()) {
+            case 'w':
                 keysPressed[event.key] = true;
-            break;
-        case 'f':
-            keyamt1++;
-            if (keyamt1 > 1)
+                break;
+            case 'a':
                 keysPressed[event.key] = true;
-            break;
-        case 'r':
-            keyamt1++;
-            if (keyamt1 > 1)
+                break;
+            case 's':
                 keysPressed[event.key] = true;
-            break;
-        case 'u':
-            keyamt2++;
-            if (keyamt2 > 1)
+                break;
+            case 'd':
                 keysPressed[event.key] = true;
-            break;
+                break;
+            case 'j':
+                keysPressed[event.key] = true;
+                break;
+            case 'l':
+                keysPressed[event.key] = true;
+                break;
+            case 'i':
+                keysPressed[event.key] = true;
+                break;
+            case 'k':
+                keysPressed[event.key] = true;
+                break;
+            case 'h':
+                keyamt2++;
+                if (keyamt2 > 1)
+                    keysPressed[event.key] = true;
+                break;
+            case 'f':
+                keyamt1++;
+                if (keyamt1 > 1)
+                    keysPressed[event.key] = true;
+                break;
+            case 'r':
+                keyamt1++;
+                if (keyamt1 > 1)
+                    keysPressed[event.key] = true;
+                break;
+            case 'u':
+                keyamt2++;
+                if (keyamt2 > 1)
+                    keysPressed[event.key] = true;
+                break;
+        }
+    }
+    if(event.key.toLocaleLowerCase() == 'enter') {
+        console.log("CLICKED")
+        if(isPlay) {
+            isPlay = false;
+            pauseText.style.display = 'block';
+            console.log(pauseText);
+        } else {
+            isPlay = true;
+            pauseText.style.display = 'none';
+        }
     }
 })
 
@@ -701,9 +720,7 @@ function winner() {
     }
 }
 
-function mapAndCharSelection() {
-    // startPage.style.backgroundImage = 'images/background/startPageBackground.jpg';
-}
+
 
 function propertiesDisplayNormal() {
     let healthContainerOne = document.getElementById('health-container-one');
@@ -712,6 +729,7 @@ function propertiesDisplayNormal() {
     let playerOneName = document.getElementById('player-one-name');
     let playerTwoName = document.getElementById('player-two-name');
     let readyWinContainer = document.getElementById('ready-win-container');
+    let pauseTextContainer = document.getElementById('pause-text-container')
 
     healthContainerOne.style.display = 'block';
     healthContainerTwo.style.display = 'block';
@@ -720,11 +738,11 @@ function propertiesDisplayNormal() {
     playerTwoName.style.display = 'block';
     readyWinContainer.style.display = 'flex';
     startPage.style.display = 'none';
+    pauseTextContainer.style.display = 'flex';
     animate();
     startTimer();
 }
 
-// propertiesDisplayNormal();
 
 startPage.addEventListener('click', (e) => {
 

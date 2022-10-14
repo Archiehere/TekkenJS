@@ -132,12 +132,27 @@ body {
 #ready-win-text {
     position: relative;
     z-index: 10;
-    /* font-family: 'Bidzina', sans-serif; */
     font-family: 'Press Start 2P', cursive;
     font-size: 90px; 
-    /* color: #585858; */
     color: orange;
-    /* display: none; */
+}
+
+#pause-text-container {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+#pause-text {
+    position: relative;
+    display: none;
+    z-index: 10;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 90px; 
+    color: orange;
 }
 
 
@@ -149,6 +164,7 @@ body {
     height: 100%;
     background: url(/images/startPage/startPageBackground.jpg);
     background-size: 100%;
+    z-index: 5;
 }
 
 #start-page p {
@@ -156,7 +172,6 @@ body {
     text-align: center;
     font-size: xx-large;
     font-family: 'Press Start 2P', cursive;
-    /* color: rgb(226, 59, 87); */
     color: orange;
 
 }
@@ -170,41 +185,3 @@ body {
     animation: fade-inout 1.5s infinite alternate;
 }
 
-/* #start-page {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: url(/images/startPage/startPageBackground.jpg);
-    background-size: 100%;
-    z-index: 15;
-}
-
-#flex-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-}
-
-.selection-container {
-    display: block;
-    margin: 4px;
-    width: 20%;
-    height: 40%;
-}
-
-.selection-preview {
-    width: 100%;
-    height: 80%;
-    background: url(/images/startPage/backgrounds/dhalsimBG.jpeg);
-    background-size: cover;
-    border: 6px solid red;
-    border-radius: 16px;
-    margin-bottom: 5%;
-}
-
-.selection-form {
-    position: absolute;
-    background-color: yellow;;
-} */
