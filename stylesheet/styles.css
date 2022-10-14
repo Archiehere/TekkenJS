@@ -1,6 +1,8 @@
 body {
-    margin: 0;
     overflow: hidden;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 #canvas1 {
     position: absolute;
@@ -185,3 +187,56 @@ body {
     animation: fade-inout 1.5s infinite alternate;
 }
 
+/* map selection */
+#showcase{
+    width: 40%;
+    height: 300px;
+    margin: auto;
+    position: relative;
+    top:70px;
+    /* margin-top: 170px; */
+    background-image: url(../images/startPage/startPageBackground.jpg);
+    background-size:cover;
+    background-repeat: no-repeat;
+    border: gold ridge 10px;
+    display: none;
+}
+#options{
+    position: relative;
+    top:100px;
+    display: flex;
+    margin-top: 50px;
+    justify-content:space-around;
+    align-items: center;
+    /* display: none; */
+
+}
+#mapbg{
+    width: 100vw;
+    height: 100vh;
+    background-image: url(../images/background/bg2.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: none;
+}
+#options div{
+    width: 250px;
+    height: 130px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+    border: white solid 10px;
+    /* display: none; */
+}
+#options div:hover{
+    border: blue solid 12px;
+    transition: 0.5s;
+    transform: translateY(-10px);
+    /* display: none; */
+}
+#options div:active{
+    border: green solid 10px;
+    transition: 0.1s;
+    transform: translateY(+10px);
+    /* display: none; */
+}

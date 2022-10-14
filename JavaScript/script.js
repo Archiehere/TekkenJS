@@ -9,7 +9,7 @@ let position2;
 let keyamt1 = 0, keyamt2 = 0;
 
 let x = 0;
-const staggerFrames = 5;
+const staggerFrames = 10;
 let y = 0;
 let velocityX = 150; //should be same as initial position of player for smooth start
 let velocityY = 380;
@@ -688,7 +688,10 @@ function animate() {
         spriteHeight2 = spriteAnimations2[playerState2].loc[position2].frameheight;
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         ctx2.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        if(selimg=="sprite")
         background(backgroundImage3, true);
+        else
+        background(selimg, false);
         // ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, spriteWidth*2.75, spriteHeight*2.75);
         ctx.drawImage(playerImage, framex, framey, spriteWidth, spriteHeight, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
         ctx2.drawImage(playerImage2, framex2, framey2, spriteWidth2, spriteHeight2, 50, 50, CANVAS_WIDTH - 50, CANVAS_HEIGHT - 50);
@@ -723,6 +726,50 @@ function winner() {
     }
 }
 
+//Map Select Screen
+let active1 = document.getElementById('map1');
+let active2 = document.getElementById('map2');
+let active3 = document.getElementById('map3');
+let showcase=document.getElementById('showcase');
+let curimg;
+let selimg;
+active1.addEventListener('mouseover', function(){
+    curimg=active1.style.backgroundImage
+    showcase.style.backgroundImage=curimg;
+})
+active2.addEventListener('mouseover', function(){
+    curimg=active2.style.backgroundImage
+    showcase.style.backgroundImage=curimg;
+})
+active3.addEventListener('mouseover', function(){
+    curimg=active3.style.backgroundImage
+    showcase.style.backgroundImage=curimg;
+})
+active1.addEventListener('click', function(){
+    selimg=backgroundImage2;
+    setTimeout(() => {
+        propertiesDisplayNormal();
+    }, 100);
+    // showcase.style.backgroundImage=selimg;
+})
+active2.addEventListener('click', function(){
+    
+    selimg=backgroundImage3;
+    setTimeout(() => {
+        propertiesDisplayNormal();
+    }, 100);
+    // showcase.style.backgroundImage=selimg;
+})
+active3.addEventListener('click', function(){
+    
+    selimg="sprite";
+    setTimeout(() => {
+        propertiesDisplayNormal();
+    }, 100);
+    // showcase.style.backgroundImage=selimg;
+})
+
+//map select end
 
 
 function propertiesDisplayNormal() {
@@ -732,7 +779,10 @@ function propertiesDisplayNormal() {
     let playerOneName = document.getElementById('player-one-name');
     let playerTwoName = document.getElementById('player-two-name');
     let readyWinContainer = document.getElementById('ready-win-container');
-    let pauseTextContainer = document.getElementById('pause-text-container')
+    let pauseTextContainer = document.getElementById('pause-text-container');
+    let options = document.getElementById('options');
+    let showcase = document.getElementById('showcase');
+    let mapbg = document.getElementById('mapbg');
 
     healthContainerOne.style.display = 'block';
     healthContainerTwo.style.display = 'block';
@@ -742,14 +792,49 @@ function propertiesDisplayNormal() {
     readyWinContainer.style.display = 'flex';
     startPage.style.display = 'none';
     pauseTextContainer.style.display = 'flex';
+    canvas.style.display="block";
+    canvas2.style.display="block";
+    options.style.display = 'none';
+    showcase.style.display = 'none';
+    mapbg.style.display = 'none';
     animate();
     startTimer();
+}
+function mappage(){
+    let healthContainerOne = document.getElementById('health-container-one');
+    let healthContainerTwo = document.getElementById('health-container-two');
+    let timerContainer = document.getElementById('timer-container');
+    let playerOneName = document.getElementById('player-one-name');
+    let playerTwoName = document.getElementById('player-two-name');
+    let readyWinContainer = document.getElementById('ready-win-container');
+    let pauseTextContainer = document.getElementById('pause-text-container')
+    let options = document.getElementById('options');
+    let showcase = document.getElementById('showcase');
+    let mapbg = document.getElementById('mapbg');
+    
+    
+
+    healthContainerOne.style.display = 'none';
+    healthContainerTwo.style.display = 'none';
+    timerContainer.style.display = 'none';
+    playerOneName.style.display = 'none';
+    playerTwoName.style.display = 'none';
+    readyWinContainer.style.display = 'none';
+    startPage.style.display = 'none';
+    pauseTextContainer.style.display = 'none';
+    options.style.display = 'flex';
+    showcase.style.display = 'block';
+    mapbg.style.display = 'block';
+    canvas.style.display="none";
+    canvas2.style.display="none";
+
 }
 
 
 startPage.addEventListener('click', (e) => {
 
-    propertiesDisplayNormal();
+    // propertiesDisplayNormal();
+    mappage();
 })
 
 
