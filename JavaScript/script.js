@@ -6,10 +6,10 @@ let prevposition = 0;
 let prevposition2 = 0;
 let position;
 let position2;
-let keyamt1 = 0, keyamt2 = 0;
+// let keyamt1 = 0, keyamt2 = 0;
 
 let x = 0;
-const staggerFrames = 5;
+const staggerFrames = 10;
 let y = 0;
 let velocityX = 150; //should be same as initial position of player for smooth start
 let velocityY = 380;
@@ -101,22 +101,22 @@ window.addEventListener('keydown', function (event) {
             break;
         case 'h':
             keyamt2++;
-            if (keyamt2 > 1)
+            // if (keyamt2 > 1)
                 keysPressed[event.key] = true;
             break;
         case 'f':
             keyamt1++;
-            if (keyamt1 > 1)
+            // if (keyamt1 > 1)
                 keysPressed[event.key] = true;
             break;
         case 'r':
             keyamt1++;
-            if (keyamt1 > 1)
+            // if (keyamt1 > 1)
                 keysPressed[event.key] = true;
             break;
         case 'u':
             keyamt2++;
-            if (keyamt2 > 1)
+            // if (keyamt2 > 1)
                 keysPressed[event.key] = true;
             break;
     }
@@ -445,6 +445,7 @@ function update() {
                     canKickOne = false;
                     canPunchOne = false;
                     let hitState = setInterval(function () {
+                        if(keyamt1>1){
                         let tempHealth = playerTwo.health;
                         playerTwo.health -= 15;
                         playerTwo.health = Math.max(0, playerTwo.health);
@@ -457,7 +458,7 @@ function update() {
                             setTimeout(function () {
                                 canKickOne = true;
                                 canPunchOne = true;
-                            }, 1000);
+                            }, 1000);}
                         }
                     }, 100)
                 }
@@ -473,6 +474,7 @@ function update() {
                         canPunchOne = false;
                         canKickOne = false;
                         let hitState = setInterval(function () {
+                            if(keyamt1>1){
                             let tempHealth = playerTwo.health;
                             playerTwo.health -= 10;
                             playerTwo.health = Math.max(0, playerTwo.health);
@@ -485,7 +487,7 @@ function update() {
                                 setTimeout(function () {
                                     canPunchOne = true;
                                     canKickOne = true;
-                                }, 800);
+                                }, 800);}
                             }
                         }, 100)
                     }
@@ -564,6 +566,7 @@ function update() {
                     canKickTwo = false;
                     canPunchTwo = false;
                     let hitState = setInterval(function () {
+                        if(keyamt2>1){
                         let tempHealth = playerOne.health;
                         playerOne.health -= 15;
                         playerOne.health = Math.max(0, playerOne.health);
@@ -576,7 +579,7 @@ function update() {
                             setTimeout(function () {
                                 canKickTwo = true;
                                 canPunchTwo = true;
-                            }, 1000);
+                            }, 1000);}
                         }
                     }, 100)
                 }
@@ -590,6 +593,7 @@ function update() {
                         canPunchTwo = false;
                         canKickTwo = false;
                         let hitState = setInterval(function () {
+                            if(keyamt2>1){
                             let tempHealth = playerOne.health;
                             playerOne.health -= 10;
                             playerOne.health = Math.max(0, playerOne.health);
@@ -602,7 +606,7 @@ function update() {
 
                                     canPunchTwo = true;
                                     canKickTwo = true;
-                                }, 800);
+                                }, 800);}
                             }
                         }, 100)
                     }
