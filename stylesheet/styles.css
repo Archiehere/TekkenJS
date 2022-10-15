@@ -194,7 +194,6 @@ body {
     margin: auto;
     position: relative;
     top:70px;
-    /* margin-top: 170px; */
     background-image: url(../images/startPage/startPageBackground.jpg);
     background-size:cover;
     background-repeat: no-repeat;
@@ -208,7 +207,6 @@ body {
     margin-top: 50px;
     justify-content:space-around;
     align-items: center;
-    /* display: none; */
 
 }
 #mapbg{
@@ -226,17 +224,14 @@ body {
     background-repeat: no-repeat;
     
     border: white solid 10px;
-    /* display: none; */
 }
 #options div:hover{
     border: blue solid 12px;
     transition: 0.5s;
     transform: translateY(-10px);
-    /* display: none; */
 }
 #options div:active{
     border: green solid 10px;
     transition: 0.1s;
     transform: translateY(+10px);
-    /* display: none; */
 }
