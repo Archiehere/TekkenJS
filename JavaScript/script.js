@@ -448,12 +448,6 @@ drawCharacter();
 
 
 function update() {
-    // hitLocations = {
-    //     kickOnPlayerOne: { x: canvas.style.left, y: canvas.style.top },
-    //     punchOnPlayerOne: { x: canvas.style.left, y: canvas.style.top },
-    //     kickOnPlayerTwo: { x: canvas2.style.left, y: canvas2.style.top },
-    //     punchOnPlayerTwo: { x: canvas2.style.left, y: canvas2.style.top }
-    // }
 
     if (gameStartFlag) {
         if (keysPressed['f']) {
